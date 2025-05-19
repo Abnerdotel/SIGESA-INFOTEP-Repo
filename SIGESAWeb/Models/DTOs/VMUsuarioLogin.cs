@@ -1,4 +1,4 @@
-﻿namespace SigesaWeb.Models.DTOS
+﻿namespace SigesaWeb.Models.DTOs
 {
     public class VMUsuarioLogin
     {
