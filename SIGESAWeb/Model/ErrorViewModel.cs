@@ -1,4 +1,4 @@
-namespace SIGESAWeb.Models
+namespace SIGESA.Models
 {
     public class ErrorViewModel
     {

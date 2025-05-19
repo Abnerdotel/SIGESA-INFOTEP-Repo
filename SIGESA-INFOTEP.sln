@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigesaWeb", "SIGESAWeb\SigesaWeb.csproj", "{FE7B27F0-E26A-4D37-8A67-7381DF0DAF63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigesaData", "SIGESAData\SigesaData.csproj", "{1BD4A31A-412E-468A-ACDD-DEE53396265C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigesaDatos", "SIGESAData\SigesaDatos.csproj", "{1BD4A31A-412E-468A-ACDD-DEE53396265C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigesaEntidades", "SIGESAEntidades\SigesaEntidades.csproj", "{17BC4260-A56A-460B-AE75-2E4CA3FEEA2A}"
 EndProject
