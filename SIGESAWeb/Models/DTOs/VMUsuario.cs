@@ -1,4 +1,4 @@
-﻿namespace SigesaWeb.Models.DTOS
+﻿namespace SigesaWeb.Models.DTOs
 {
     public class VMUsuario
     {
@@ -8,6 +8,5 @@
         public string Correo { get; set; } = null!;
         public string Clave { get; set; } = null!;
         public string ConfirmarClave { get; set; } = null!;
-
     }
 }
