@@ -20,7 +20,7 @@ namespace SigesaData.Context
             base.OnConfiguring(optionsBuilder);
         }
 
-        public DbSet<RolUsuario> RolUsuario { get; set; }
-        public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<RolUsuario> RolesUsuario { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
     }
 }

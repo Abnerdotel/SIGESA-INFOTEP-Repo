@@ -9,7 +9,7 @@ namespace SigesaEntidades
         public int Capacidad { get; set; }
         public string Tipo { get; set; } = null!; // Ej: Aula, Sala de Reunión
         public string? Observaciones { get; set; }
-        public string FechaCreacion { get; set; } = null!;
+        public DateTime FechaCreacion { get; set; } 
 
         public ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
         public ICollection<EspacioEquipamiento> Equipamientos { get; set; } = new List<EspacioEquipamiento>();

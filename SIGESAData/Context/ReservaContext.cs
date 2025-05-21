@@ -1,6 +1,7 @@
 ﻿
 
 using Microsoft.EntityFrameworkCore;
+using SigesaEntidades;
 
 namespace SigesaData.Context
 {
@@ -17,5 +18,6 @@ namespace SigesaData.Context
             base.OnConfiguring(optionsBuilder);
         }
         
+        public DbSet<Reserva> Reservas { get; set; }
     }
 }
