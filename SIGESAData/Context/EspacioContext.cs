@@ -1,8 +1,21 @@
 ﻿
 
+using Microsoft.EntityFrameworkCore;
+
 namespace SigesaData.Context
 {
-    public class EspacioContext
+    public class EspacioContext : DbContext
     {
+        public EspacioContext(DbContext options ): base () { }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseInMemoryDatabase("DBSIGESA");
+
+            }
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 }
