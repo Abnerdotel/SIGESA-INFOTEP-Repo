@@ -3,11 +3,11 @@
 using SigesaData.Contrato;
 using SigesaEntidades;
 
-namespace SigesaData.Implementacion.DB
+namespace SigesaData.Implementacion.Mock
 {
-    public class EquipamientoRepositorio : IEquipamientoRepositorio
+    public class MockReservaRepositorio : IReservaRepositorio
     {
-        public Task<string> Editar(Equipamiento objeto)
+        public Task<string> Editar(Reserva objeto)
         {
             throw new NotImplementedException();
         }
@@ -17,12 +17,12 @@ namespace SigesaData.Implementacion.DB
             throw new NotImplementedException();
         }
 
-        public Task<string> Guardar(Equipamiento objeto)
+        public Task<string> Guardar(Reserva objeto)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Equipamiento>> Lista()
+        public Task<List<Reserva>> Lista()
         {
             throw new NotImplementedException();
         }

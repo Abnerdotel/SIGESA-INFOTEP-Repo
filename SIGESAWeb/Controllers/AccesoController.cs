@@ -5,6 +5,7 @@ using SigesaData.Contrato;
 using SigesaEntidades;
 using SigesaWeb.Models.DTOS;
 using System.Security.Claims;
+using SigesaWeb.Models.DTOs;
 
 namespace SigesaWeb.Controllers
 {

@@ -3,9 +3,9 @@
 using SigesaData.Contrato;
 using SigesaEntidades;
 
-namespace SigesaData.Implementacion.DB
+namespace SigesaData.Implementacion.Mock
 {
-    public class EquipamientoRepositorio : IEquipamientoRepositorio
+    public class MockEquipamientoRepositorio : IEquipamientoRepositorio
     {
         public Task<string> Editar(Equipamiento objeto)
         {
