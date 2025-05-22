@@ -67,7 +67,7 @@ namespace SigesaWeb.Controllers
 
             string rol = usuario_encontrado.RolUsuario.Nombre;
             if (rol == "Paciente") return RedirectToAction("Index", "Citas");
-            if (rol == "Doctor") return RedirectToAction("CitasAsignadas", "Citas");
+            if (rol == "Administrador") return RedirectToAction("CitasAsignadas", "Citas");
 
             return RedirectToAction("Index", "Home");
         }
@@ -75,36 +75,36 @@ namespace SigesaWeb.Controllers
         {
             return View();
         }
-        // [HttpPost]
-        //public async Task<IActionResult> Registrarse(VMPaciente modelo)
-        //{
-        //    if (modelo.Clave != modelo.ConfirmarClave)
-        //    {
-        //        ViewBag.Mensaje = "Las contraseñas no coinciden";
-        //        return View();
-        //    }
+        [HttpPost]
+        public async Task<IActionResult> Registrarse(VMUsuario modelo)
+        {
+            if (modelo.Clave != modelo.ConfirmarClave)
+            {
+                ViewBag.Mensaje = "Las contraseñas no coinciden";
+                return View();
+            }
 
-        //    Usuario objeto = new Usuario()
-        //    {
-        //        NumeroDocumentoIdentidad = modelo.DocumentoIdentidad,
-        //        Nombre = modelo.Nombre,
-        //        Apellido = modelo.Apellido,
-        //        Correo = modelo.Correo,
-        //        Clave = modelo.Clave,
-        //        RolUsuario = new RolUsuario()
-        //        {
-        //            IdRolUsuario = 2
-        //        }
-        //    };
-        //    string resultado = await _repositorio.Guardar(objeto);
-        //    ViewBag.Mensaje = resultado;
-        //    if (resultado == "")
-        //    {
-        //        ViewBag.Creado = true;
-        //        ViewBag.Mensaje = "Su cuenta ha sido creada.";
-        //    }
-        //    return View();
-        //}
+            Usuario objeto = new Usuario()
+            {
+                NumeroDocumentoIdentidad = modelo.DocumentoIdentidad,
+                Nombre = modelo.Nombre,
+                Apellido = modelo.Apellido,
+                Correo = modelo.Correo,
+                Clave = modelo.Clave,
+                RolUsuario = new RolUsuario()
+                {
+                    IdRolUsuario = 2
+                }
+            };
+            string resultado = await _repositorio.Guardar(objeto);
+            ViewBag.Mensaje = resultado;
+            if (resultado == "")
+            {
+                ViewBag.Creado = true;
+                ViewBag.Mensaje = "Su cuenta ha sido creada.";
+            }
+            return View();
+        }
 
         public IActionResult Denegado()
         {

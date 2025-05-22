@@ -9,7 +9,7 @@ namespace SigesaEntidades
         public Usuario Usuario { get; set; } = null!;
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
-        public string Estado { get; set; } = null!; // Ej: Pendiente, Confirmada, Cancelada
+        public EstadoReserva Estado { get; set; } = null!; // Pendiente, Confirmada, Cancelada
 
         public string FechaCreacion { get; set; } = null!;
     }
