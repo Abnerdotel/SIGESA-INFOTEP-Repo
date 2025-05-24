@@ -7,7 +7,7 @@ namespace SigesaEntidades
         public int IdEspacio { get; set; }
         public string Nombre { get; set; } = null!;
         public int Capacidad { get; set; }
-        public string Tipo { get; set; } = null!; // Aula, Sala de Reunión
+        public TipoEspacio Tipo { get; set; } = null!; // Aula, Sala de Reunión
         public string? Observaciones { get; set; }
         public DateTime FechaCreacion { get; set; } 
 
