@@ -14,6 +14,8 @@ namespace SigesaData.Implementacion.DB
         public Task<int> Eliminar(int Id)
         {
             throw new NotImplementedException();
+
+
         }
 
         public Task<string> Guardar(Reserva objeto)

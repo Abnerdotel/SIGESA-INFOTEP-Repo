@@ -24,8 +24,8 @@ namespace SigesaWeb.Controllers
             {
                 string rol = claimuser.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault()!;
                 if (rol == "Administrador") return RedirectToAction("Index", "Home");
-                if (rol == "Paciente") return RedirectToAction("Index", "Citas");
-                //if (rol == "Doctor") return RedirectToAction("Index", "Home");
+                if (rol == "Usuario") return RedirectToAction("Index", "Cursos");
+                if (rol == "Coordinador") return RedirectToAction("Index", "Home");
             }
             return View();
         }
@@ -66,8 +66,8 @@ namespace SigesaWeb.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
 
             string rol = usuario_encontrado.RolUsuario.Nombre;
-            if (rol == "Paciente") return RedirectToAction("Index", "Citas");
-            if (rol == "Administrador") return RedirectToAction("CitasAsignadas", "Citas");
+            if (rol == "Usuario") return RedirectToAction("Index", "Cursos");
+            if (rol == "Administrador") return RedirectToAction("CursosAsginados", "Cursos");
 
             return RedirectToAction("Index", "Home");
         }
