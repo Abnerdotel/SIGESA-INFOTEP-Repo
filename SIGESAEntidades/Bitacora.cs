@@ -4,6 +4,7 @@ namespace SigesaEntidades
 {
     public class Bitacora
     {
+       
         public int IdBitacora { get; set; }
         public string Modulo { get; set; } = null!;
         public string Accion { get; set; } = null!;

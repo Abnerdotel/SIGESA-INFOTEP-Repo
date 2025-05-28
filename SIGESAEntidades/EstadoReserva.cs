@@ -5,6 +5,6 @@ namespace SigesaEntidades
     {
         public int IdEstado {  get; set; } 
         public string Nombre { get; set; }  = null!;
-        public string FechaCreacion { get; set; } = null!;
+        public DateTime FechaCreacion { get; set; } 
     }
 }

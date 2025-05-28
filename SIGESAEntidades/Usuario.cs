@@ -8,9 +8,9 @@
         public string Apellido { get; set; } = null!;
         public string Correo { get; set; } = null!;
         public string Clave { get; set; } = null!;
-        public RolUsuario RolUsuario { get; set; } = null!;
+        public virtual RolUsuario RolUsuario { get; set; } = null!;
         public DateTime FechaCreacion { get; set; } 
-        public ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
-        public ICollection<Notificacion> Notificaciones { get; set; } = new List<Notificacion>();
+        public virtual ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
+        public virtual ICollection<Notificacion> Notificaciones { get; set; } = new List<Notificacion>();
     }
 }
