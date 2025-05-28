@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using SigesaData.Configuracion;
 using SigesaData.Contrato;
 using SigesaData.Implementacion.DB;
+using SigesaIOC;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,15 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
 
-builder.Services.AddScoped<IRolUsuarioRepositorio, RolUsuarioRepositorio>();
-builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
-builder.Services.AddScoped<IBitacoraRepositorio, BitacoraRepositorio>();
-builder.Services.AddScoped<IEquipamientoRepositorio, EquipamientoRepositorio>();
-builder.Services.AddScoped<IEspacioRepositorio, EspacioRepositorio>();
-builder.Services.AddScoped<INotificacionRepositorio, NotificacionRepositorio>();
-builder.Services.AddScoped<IReservaRepositorio, ReservaRepositorio>();
+builder.Services.InyectarDependencia(builder.Configuration);
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(option =>
