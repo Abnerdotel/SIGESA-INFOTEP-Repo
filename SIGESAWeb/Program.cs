@@ -1,10 +1,9 @@
 
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
 using SigesaData.Configuracion;
 using SigesaData.Contrato;
 using SigesaData.Implementacion.DB;
-using System;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
