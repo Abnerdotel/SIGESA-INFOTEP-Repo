@@ -12,6 +12,8 @@ namespace SigesaData.Contrato
         Task<string> Editar(Equipamiento objeto);
         Task<int> Eliminar(int id);
 
+
         Task<List<Equipamiento>> ListarPorEspacio(int idEspacio);
+
     }
 }
