@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using SigesaData.Contrato;
 using SigesaEntidades;
-using SigesaWeb.Models.DTOS;
 using System.Security.Claims;
 using SigesaWeb.Models.DTOs;
 
@@ -24,7 +23,7 @@ namespace SigesaWeb.Controllers
             {
                 string rol = claimuser.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault()!;
                 if (rol == "Administrador") return RedirectToAction("Index", "Home");
-                if (rol == "Usuario") return RedirectToAction("Index", "Cursos");
+                if (rol == "Usuario") return RedirectToAction("Index", "Home");
                 if (rol == "Coordinador") return RedirectToAction("Index", "Home");
             }
             return View();
