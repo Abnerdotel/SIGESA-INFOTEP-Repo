@@ -2,12 +2,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SigesaIOC;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 
 builder.Services.InyectarDependencia(builder.Configuration);
 //builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
