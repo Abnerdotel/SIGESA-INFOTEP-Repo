@@ -14,7 +14,8 @@ namespace SigesaIOC
         {
             services.AddDbContext<SigesaDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("ConnectionStrings"));
+                options.UseSqlServer(Configuration.GetConnectionString("CadenaSQL"));
+
             });
 
             services.AddScoped<IRolUsuarioRepositorio, RolUsuarioRepositorio>();
