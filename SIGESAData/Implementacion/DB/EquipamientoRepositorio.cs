@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using SigesaData.Configuracion;
 using SigesaData.Contrato;
@@ -141,7 +142,7 @@ namespace SigesaData.Implementacion.DB
 
         public async Task<int> Eliminar(int id)
         {
-            int resultado = 0;
+            int respuesta = 1;
 
             using (var conexion = new SqlConnection(con.CadenaSQL))
             {
@@ -155,15 +156,15 @@ namespace SigesaData.Implementacion.DB
 
                 try
                 {
-                    resultado = await cmd.ExecuteNonQueryAsync();
+                    await cmd.ExecuteNonQueryAsync();
                 }
                 catch
                 {
-                    resultado = 0;
+                    respuesta = 0;
                 }
             }
 
-            return resultado;
+            return respuesta;
         }
 
         public async Task<List<Equipamiento>> ListarPorEspacio(int idEspacio)

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SigesaEntidades;
 
 
@@ -31,4 +31,4 @@ namespace SigesaData.Context
         public DbSet<TipoNotificacion> TipoNotificacion { get; set; }
         public DbSet<Bitacora> Bitacora { get; set; }
     }
-    }
+}
