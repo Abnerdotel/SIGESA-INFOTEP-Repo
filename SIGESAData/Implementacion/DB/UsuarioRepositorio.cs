@@ -25,7 +25,7 @@ namespace SigesaData.Implementacion.DB
             {
                 await conexion.OpenAsync();
                 SqlCommand cmd = new SqlCommand("sp_editarUsuario", conexion);
-               
+
                 cmd.Parameters.AddWithValue("@IdUsuario", Objeto.IdUsuario);
                 cmd.Parameters.AddWithValue("@NumeroDocumentoIdentidad", Objeto.NumeroDocumentoIdentidad);
                 cmd.Parameters.AddWithValue("@Nombre", Objeto.Nombre);
@@ -33,7 +33,7 @@ namespace SigesaData.Implementacion.DB
                 cmd.Parameters.AddWithValue("@Correo", Objeto.Correo);
                 cmd.Parameters.AddWithValue("@Clave", Objeto.Clave);
                 cmd.Parameters.AddWithValue("@IdRolUsuario", Objeto.RolUsuario.IdRolUsuario);
-                cmd.Parameters.Add("@MsgError", SqlDbType.VarChar, 100).Direction=ParameterDirection.Output;
+                cmd.Parameters.Add("@MsgError", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 try
@@ -50,7 +50,7 @@ namespace SigesaData.Implementacion.DB
             return respuesta;
         }
 
-        public async  Task<int> Eliminar(int Id)
+        public async Task<int> Eliminar(int Id)
         {
             int respuesta = 1;
             using (var conexion = new SqlConnection(con.CadenaSQL))
@@ -76,6 +76,7 @@ namespace SigesaData.Implementacion.DB
 
         public async Task<string> Guardar(Usuario objeto)
         {
+
             string respuesta = "";
             using (var conexion = new SqlConnection(con.CadenaSQL))
             {
@@ -102,6 +103,8 @@ namespace SigesaData.Implementacion.DB
 
             }
             return respuesta;
+
+
         }
 
         public async Task<List<Usuario>> Lista(int IdRolUsuario = 0)
