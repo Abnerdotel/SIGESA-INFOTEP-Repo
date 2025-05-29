@@ -117,6 +117,8 @@ namespace SigesaData.Implementacion.DB
             return registro;
         }
 
+
+        
         public async Task<int> Eliminar(int id)
         {
             int respuesta = 1;

@@ -10,7 +10,6 @@ namespace SigesaEntidades
         public virtual TipoEspacio Tipo { get; set; } = null!; // Aula, Sala de Reunión
         public string? Observaciones { get; set; }
         public DateTime FechaCreacion { get; set; } 
-
         public virtual ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
         public virtual ICollection<EspacioEquipamiento> Equipamientos { get; set; } = new List<EspacioEquipamiento>();
     }
