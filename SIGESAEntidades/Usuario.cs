@@ -1,5 +1,6 @@
 ﻿namespace SigesaEntidades
 {
+
         public class Usuario
         {
             public int IdUsuario { get; set; }
@@ -13,4 +14,5 @@
             public ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
             public ICollection<Notificacion> Notificaciones { get; set; } = new List<Notificacion>();
         }
+
 }
