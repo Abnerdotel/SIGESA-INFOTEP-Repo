@@ -12,9 +12,10 @@
         public DateTime FechaCreacion { get; set; }
 
         public virtual ICollection<Rol> Roles { get; set; } = new List<Rol>();
-
         public virtual ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
-        public virtual  ICollection<Notificacion> Notificaciones { get; set; } = new List<Notificacion>();
+        public virtual ICollection<Notificacion> Notificaciones { get; set; } = new List<Notificacion>();
+        public virtual ICollection<Bitacora> Bitacoras { get; set; } = new List<Bitacora>();
     }
+
 
 }

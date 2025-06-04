@@ -8,4 +8,5 @@
 
         public virtual ICollection<Rol> Roles { get; set; } = new List<Rol>();
     }
+
 }
