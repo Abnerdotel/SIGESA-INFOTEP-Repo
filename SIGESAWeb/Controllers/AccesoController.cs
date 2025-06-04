@@ -53,7 +53,7 @@ namespace SigesaWeb.Controllers
             {
                 new Claim(ClaimTypes.Name, $"{usuario_encontrado.Nombre} {usuario_encontrado.Apellido}"),
                 new Claim(ClaimTypes.NameIdentifier, usuario_encontrado.IdUsuario.ToString()),
-                new Claim(ClaimTypes.Role,usuario_encontrado.RolUsuario.Nombre)
+                //new Claim(ClaimTypes.Role,usuario_encontrado.RolUsuario.Nombre)
             };
 
 
@@ -65,9 +65,9 @@ namespace SigesaWeb.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
 
-            string rol = usuario_encontrado.RolUsuario.Nombre;
-            if (rol == "Usuario") return RedirectToAction("Index", "Cursos");
-            if (rol == "Administrador") return RedirectToAction("CursosAsginados", "Cursos");
+            //string rol = usuario_encontrado.RolUsuario.Nombre;
+            //if (rol == "Usuario") return RedirectToAction("Index", "Cursos");
+            //if (rol == "Administrador") return RedirectToAction("CursosAsginados", "Cursos");
 
             return RedirectToAction("Index", "Home");
         }
@@ -91,10 +91,10 @@ namespace SigesaWeb.Controllers
                 Apellido = modelo.Apellido,
                 Correo = modelo.Correo,
                 Clave = modelo.Clave,
-                RolUsuario = new RolUsuario()
-                {
-                    IdRolUsuario = 2
-                }
+                //RolUsuario = new RolUsuario()
+                //{
+                //    IdRolUsuario = 2
+                //}
             };
             string resultado = await _repositorio.Guardar(objeto);
             ViewBag.Mensaje = resultado;

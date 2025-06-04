@@ -32,7 +32,7 @@ namespace SigesaData.Implementacion.DB
                 cmd.Parameters.AddWithValue("@Modulo", objeto.Modulo);
                 cmd.Parameters.AddWithValue("@Accion", objeto.Accion);
                 cmd.Parameters.AddWithValue("@Detalle", objeto.Detalle);
-                cmd.Parameters.AddWithValue("@UsuarioAccion", objeto.UsuarioAccion);
+                cmd.Parameters.AddWithValue("@UsuarioAccion", objeto.Accion);
                 cmd.Parameters.Add("@MsgError", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                 try
@@ -75,8 +75,7 @@ namespace SigesaData.Implementacion.DB
                             Modulo = dr["Modulo"].ToString()!,
                             Accion = dr["Accion"].ToString()!,
                             Detalle = dr["Detalle"].ToString()!,
-                            FechaAccion = Convert.ToDateTime(dr["FechaAccion"]),
-                            UsuarioAccion = dr["UsuarioAccion"].ToString()!
+                            FechaAccion = Convert.ToDateTime(dr["FechaAccion"])                        
                         });
                     }
                 }
@@ -107,9 +106,8 @@ namespace SigesaData.Implementacion.DB
                             Modulo = dr["Modulo"].ToString()!,
                             Accion = dr["Accion"].ToString()!,
                             Detalle = dr["Detalle"].ToString()!,
-                            FechaAccion = Convert.ToDateTime(dr["FechaAccion"]),
-                            UsuarioAccion = dr["UsuarioAccion"].ToString()!
-                        };
+                            FechaAccion = Convert.ToDateTime(dr["FechaAccion"]),                        
+                       };
                     }
                 }
             }

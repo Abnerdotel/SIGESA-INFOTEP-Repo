@@ -10,7 +10,6 @@
         public string Correo { get; set; } = null!;
         public string Clave { get; set; } = null!;
         public DateTime FechaCreacion { get; set; }
-
         public virtual ICollection<Rol> Roles { get; set; } = new List<Rol>();
         public virtual ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
         public virtual ICollection<Notificacion> Notificaciones { get; set; } = new List<Notificacion>();

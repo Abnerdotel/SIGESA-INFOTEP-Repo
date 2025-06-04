@@ -39,12 +39,12 @@ namespace SigesaData.Implementacion.DB
                             Nombre = dr["Nombre"].ToString()!,
                             Capacidad = Convert.ToInt32(dr["Capacidad"]),
                             Observaciones = dr["Observaciones"]?.ToString(),
-                            FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"]),
+                            FechaCreacion = (DateTime)dr["FechaCreacion"],
                             Tipo = new TipoEspacio
                             {
                                 IdTipoEspacio = Convert.ToInt32(dr["IdTipoEspacio"]),
                                 Nombre = dr["NombreTipo"].ToString()!,
-                                FechaCreacion = dr["FechaCreacionTipo"].ToString()!
+                                FechaCreacion = (DateTime)dr["FechaCreacionTipo"]
                             }
                         });
                     }
@@ -77,12 +77,12 @@ namespace SigesaData.Implementacion.DB
                             Nombre = dr["Nombre"].ToString()!,
                             Capacidad = Convert.ToInt32(dr["Capacidad"]),
                             Observaciones = dr["Observaciones"]?.ToString(),
-                            FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"]),
+                            FechaCreacion = (DateTime)dr["FechaCreacion"],
                             Tipo = new TipoEspacio
                             {
                                 IdTipoEspacio = Convert.ToInt32(dr["IdTipoEspacio"]),
                                 Nombre = dr["NombreTipo"].ToString()!,
-                                FechaCreacion = dr["FechaCreacionTipo"].ToString()!
+                                FechaCreacion = (DateTime)dr["FechaCreacionTipo"]
                             }
                         };
                     }
@@ -198,7 +198,7 @@ namespace SigesaData.Implementacion.DB
                             {
                                 IdTipoEspacio = Convert.ToInt32(dr["IdTipoEspacio"]),
                                 Nombre = dr["NombreTipo"].ToString()!,
-                                FechaCreacion = dr["FechaCreacionTipo"].ToString()!
+                                FechaCreacion = (DateTime)dr["FechaCreacionTipo"]
                             }
                         });
                     }

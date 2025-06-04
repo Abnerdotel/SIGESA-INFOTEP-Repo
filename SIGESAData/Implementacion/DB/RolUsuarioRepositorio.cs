@@ -33,7 +33,7 @@ namespace SigesaData.Implementacion.DB
                         {
                             IdRolUsuario = Convert.ToInt32(dr["IdRolUsuario"]),
                             Nombre = dr["Nombre"].ToString()!,
-                            FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"])
+                            FechaCreacion = (DateTime)(dr["FechaCreacion"])
                         });
                     }
                 }

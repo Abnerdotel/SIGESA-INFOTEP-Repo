@@ -128,11 +128,11 @@ namespace SigesaData.Implementacion.DB
                             Apellido = dr["Apellido"].ToString()!,
                             Correo = dr["Correo"].ToString()!,
                             Clave = dr["Clave"].ToString()!,
-                            RolUsuario = new RolUsuario()
-                            {
-                                IdRolUsuario = Convert.ToInt32(dr["IdRolUsuario"]),
-                                Nombre = dr["NombreRol"].ToString()!,
-                            },
+                            //Roles = new Rol()
+                            //{
+                            //    IdRolUsuario = Convert.ToInt32(dr["IdRolUsuario"]),
+                                
+                            //},
                             FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"])
                         });
                     }
@@ -165,10 +165,10 @@ namespace SigesaData.Implementacion.DB
                             Nombre = dr["Nombre"].ToString()!,
                             Apellido = dr["Apellido"].ToString()!,
                             Correo = dr["Correo"].ToString()!,
-                            Rol = new RolUsuario
-                            {
-                                Nombre = dr["NombreRol"].ToString()!,
-                            }
+                            //Rol = new RolUsuario
+                            //{
+                            //    Nombre = dr["NombreRol"].ToString()!,
+                            //}
                         };
                     }
                 }

@@ -37,7 +37,7 @@ namespace SigesaData.Implementacion.DB
                             IdReserva = Convert.ToInt32(dr["IdReserva"]),
                             FechaInicio = Convert.ToDateTime(dr["FechaInicio"]),
                             FechaFin = Convert.ToDateTime(dr["FechaFin"]),
-                            FechaCreacion = dr["FechaCreacion"].ToString()!,
+                            FechaCreacion = (DateTime)dr["FechaCreacion"],
                             Estado = new EstadoReserva
                             {
                                 IdEstado = Convert.ToInt32(dr["IdEstado"]),
@@ -83,7 +83,7 @@ namespace SigesaData.Implementacion.DB
                             IdReserva = Convert.ToInt32(dr["IdReserva"]),
                             FechaInicio = Convert.ToDateTime(dr["FechaInicio"]),
                             FechaFin = Convert.ToDateTime(dr["FechaFin"]),
-                            FechaCreacion = dr["FechaCreacion"].ToString()!,
+                            FechaCreacion = (DateTime)dr["FechaCreacion"],
                             Estado = new EstadoReserva
                             {
                                 IdEstado = Convert.ToInt32(dr["IdEstado"]),
@@ -211,7 +211,7 @@ namespace SigesaData.Implementacion.DB
                             IdReserva = Convert.ToInt32(dr["IdReserva"]),
                             FechaInicio = Convert.ToDateTime(dr["FechaInicio"]),
                             FechaFin = Convert.ToDateTime(dr["FechaFin"]),
-                            FechaCreacion = dr["FechaCreacion"].ToString()!,
+                            FechaCreacion = (DateTime)dr["FechaCreacion"],
                             Estado = new EstadoReserva
                             {
                                 IdEstado = Convert.ToInt32(dr["IdEstado"]),
@@ -252,7 +252,7 @@ namespace SigesaData.Implementacion.DB
                             IdReserva = Convert.ToInt32(dr["IdReserva"]),
                             FechaInicio = Convert.ToDateTime(dr["FechaInicio"]),
                             FechaFin = Convert.ToDateTime(dr["FechaFin"]),
-                            FechaCreacion = dr["FechaCreacion"].ToString()!,
+                            FechaCreacion = (DateTime)dr["FechaCreacion"],
                             Estado = new EstadoReserva
                             {
                                 IdEstado = Convert.ToInt32(dr["IdEstado"]),

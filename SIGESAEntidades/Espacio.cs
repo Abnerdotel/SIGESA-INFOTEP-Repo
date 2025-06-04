@@ -1,5 +1,8 @@
 ﻿
 
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
 namespace SigesaEntidades
 {
     public class Espacio
@@ -9,10 +12,8 @@ namespace SigesaEntidades
         public int Capacidad { get; set; }
         public string? Observaciones { get; set; }
         public DateTime FechaCreacion { get; set; }
-
         public int IdTipoEspacio { get; set; }
         public virtual TipoEspacio Tipo { get; set; } = null!;
-
         public virtual ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
         public virtual ICollection<EspacioEquipamiento> Equipamientos { get; set; } = new List<EspacioEquipamiento>();
     }
