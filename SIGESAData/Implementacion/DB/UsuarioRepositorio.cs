@@ -30,7 +30,7 @@ namespace SigesaData.Implementacion.DB
                 cmd.Parameters.AddWithValue("@Apellido", Objeto.Apellido);
                 cmd.Parameters.AddWithValue("@Correo", Objeto.Correo);
                 cmd.Parameters.AddWithValue("@Clave", Objeto.Clave);
-                cmd.Parameters.AddWithValue("@IdRolUsuario", Objeto.RolUsuario.IdRolUsuario);
+                cmd.Parameters.AddWithValue("@IdRolUsuario", Objeto.Roles);
                 cmd.Parameters.Add("@MsgError", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -85,7 +85,7 @@ namespace SigesaData.Implementacion.DB
                 cmd.Parameters.AddWithValue("@Apellido", objeto.Apellido);
                 cmd.Parameters.AddWithValue("@Correo", objeto.Correo);
                 cmd.Parameters.AddWithValue("@Clave", objeto.Clave);
-                cmd.Parameters.AddWithValue("@IdRolUsuario", objeto.RolUsuario.IdRolUsuario);
+                cmd.Parameters.AddWithValue("@IdRolUsuario", objeto.Roles);
                 cmd.Parameters.Add("@MsgError", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                 cmd.CommandType = CommandType.StoredProcedure;
 

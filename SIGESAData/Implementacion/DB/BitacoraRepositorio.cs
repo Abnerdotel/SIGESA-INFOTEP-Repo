@@ -28,7 +28,7 @@ namespace SigesaData.Implementacion.DB
 
                 SqlCommand cmd = new SqlCommand("sp_registrarBitacora", conexion);
                 cmd.CommandType = CommandType.StoredProcedure;
-
+                
                 cmd.Parameters.AddWithValue("@Modulo", objeto.Modulo);
                 cmd.Parameters.AddWithValue("@Accion", objeto.Accion);
                 cmd.Parameters.AddWithValue("@Detalle", objeto.Detalle);

@@ -5,6 +5,7 @@
         public int IdRolUsuario { get; set; }
         public string Nombre { get; set; } = null!;
         public DateTime FechaCreacion { get; set; }
-        public ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
+
+        public virtual ICollection<Rol> Roles { get; set; } = new List<Rol>();
     }
 }
