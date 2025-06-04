@@ -165,7 +165,7 @@ namespace SigesaData.Implementacion.DB
                             Nombre = dr["Nombre"].ToString()!,
                             Apellido = dr["Apellido"].ToString()!,
                             Correo = dr["Correo"].ToString()!,
-                            RolUsuario = new RolUsuario
+                            Rol = new RolUsuario
                             {
                                 Nombre = dr["NombreRol"].ToString()!,
                             }
