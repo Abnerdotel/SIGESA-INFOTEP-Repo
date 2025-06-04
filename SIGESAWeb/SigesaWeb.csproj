@@ -11,8 +11,4 @@
 		<ProjectReference Include="..\SigesaIOC\SigesaIOC.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.2" />
-	</ItemGroup>
-
 </Project>

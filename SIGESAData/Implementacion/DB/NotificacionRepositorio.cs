@@ -17,6 +17,7 @@ namespace SigesaData.Implementacion.DB
             con = options.Value;
         }
 
+        #region Registrar Notificacion 
         public async Task<string> Registrar(Notificacion objeto)
         {
             string respuesta = "";
@@ -47,7 +48,9 @@ namespace SigesaData.Implementacion.DB
 
             return respuesta;
         }
+        #endregion
 
+        #region Listar Notificacion por Usuario
         public async Task<List<Notificacion>> ListarPorUsuario(int idUsuario)
         {
             var lista = new List<Notificacion>();
@@ -87,5 +90,6 @@ namespace SigesaData.Implementacion.DB
 
             return lista;
         }
+        #endregion
     }
 }

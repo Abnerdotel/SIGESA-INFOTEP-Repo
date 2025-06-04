@@ -17,6 +17,8 @@ namespace SigesaData.Implementacion.DB
             con = options.Value;
         }
 
+
+        #region Listar Equipamiento
         public async Task<List<Equipamiento>> Lista()
         {
             var lista = new List<Equipamiento>();
@@ -46,7 +48,9 @@ namespace SigesaData.Implementacion.DB
 
             return lista;
         }
+        #endregion
 
+        #region Obtener Equipamiento
         public async Task<Equipamiento?> ObtenerPorId(int id)
         {
             Equipamiento? objeto = null;
@@ -78,7 +82,9 @@ namespace SigesaData.Implementacion.DB
 
             return objeto;
         }
+        #endregion
 
+        #region Guardar Equipamiento
         public async Task<string> Guardar(Equipamiento objeto)
         {
             string respuesta = "";
@@ -108,7 +114,9 @@ namespace SigesaData.Implementacion.DB
 
             return respuesta;
         }
+        #endregion
 
+        #region Editar Equipamiento
         public async Task<string> Editar(Equipamiento objeto)
         {
             string respuesta = "";
@@ -139,7 +147,9 @@ namespace SigesaData.Implementacion.DB
 
             return respuesta;
         }
+        #endregion
 
+        #region Eliminar Equipamiento
         public async Task<int> Eliminar(int id)
         {
             int respuesta = 1;
@@ -166,7 +176,9 @@ namespace SigesaData.Implementacion.DB
 
             return respuesta;
         }
+        #endregion
 
+        #region Listar Equipamiento por espacio
         public async Task<List<Equipamiento>> ListarPorEspacio(int idEspacio)
         {
             var lista = new List<Equipamiento>();
@@ -198,5 +210,7 @@ namespace SigesaData.Implementacion.DB
 
             return lista;
         }
+
+        #endregion
     }
 }

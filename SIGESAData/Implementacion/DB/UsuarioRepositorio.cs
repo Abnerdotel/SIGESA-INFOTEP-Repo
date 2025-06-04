@@ -15,6 +15,8 @@ namespace SigesaData.Implementacion.DB
         {
             con = opctions.Value;
         }
+
+        #region Editar Usuario
         public async Task<string> Editar(Usuario Objeto)
         {
             string respuesta = null;
@@ -30,7 +32,7 @@ namespace SigesaData.Implementacion.DB
                 cmd.Parameters.AddWithValue("@Apellido", Objeto.Apellido);
                 cmd.Parameters.AddWithValue("@Correo", Objeto.Correo);
                 cmd.Parameters.AddWithValue("@Clave", Objeto.Clave);
-                cmd.Parameters.AddWithValue("@IdRolUsuario", Objeto.RolUsuario.IdRolUsuario);
+                cmd.Parameters.AddWithValue("@IdRolUsuario", Objeto.Roles);
                 cmd.Parameters.Add("@MsgError", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -47,7 +49,9 @@ namespace SigesaData.Implementacion.DB
 
             return respuesta;
         }
+        #endregion
 
+        #region Eliminar Usuario
         public async Task<int> Eliminar(int Id)
         {
             int respuesta = 1;
@@ -71,7 +75,9 @@ namespace SigesaData.Implementacion.DB
             return respuesta;
 
         }
-
+        #endregion
+    
+        #region Guardar Usuario
         public async Task<string> Guardar(Usuario objeto)
         {
 
@@ -85,7 +91,7 @@ namespace SigesaData.Implementacion.DB
                 cmd.Parameters.AddWithValue("@Apellido", objeto.Apellido);
                 cmd.Parameters.AddWithValue("@Correo", objeto.Correo);
                 cmd.Parameters.AddWithValue("@Clave", objeto.Clave);
-                cmd.Parameters.AddWithValue("@IdRolUsuario", objeto.RolUsuario.IdRolUsuario);
+                cmd.Parameters.AddWithValue("@IdRolUsuario", objeto.Roles);
                 cmd.Parameters.Add("@MsgError", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -104,77 +110,112 @@ namespace SigesaData.Implementacion.DB
 
 
         }
+        #endregion
 
+        #region Listar Usuario
         public async Task<List<Usuario>> Lista(int IdRolUsuario = 0)
         {
-            List<Usuario> lista = new List<Usuario>();
+            var usuariosDict = new Dictionary<int, Usuario>();
 
             using (var conexion = new SqlConnection(con.CadenaSQL))
             {
                 await conexion.OpenAsync();
-                SqlCommand cmd = new SqlCommand("sp_listaUsuario", conexion);
+                var cmd = new SqlCommand("sp_listaUsuario", conexion)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
                 cmd.Parameters.AddWithValue("@IdRolUsuario", IdRolUsuario);
-                cmd.CommandType = CommandType.StoredProcedure;
 
                 using (var dr = await cmd.ExecuteReaderAsync())
                 {
                     while (await dr.ReadAsync())
                     {
-                        lista.Add(new Usuario()
+                        int idUsuario = Convert.ToInt32(dr["IdUsuario"]);
+
+                        if (!usuariosDict.ContainsKey(idUsuario))
                         {
-                            IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
-                            NumeroDocumentoIdentidad = dr["NumeroDocumentoIdentidad"].ToString()!,
-                            Nombre = dr["Nombre"].ToString()!,
-                            Apellido = dr["Apellido"].ToString()!,
-                            Correo = dr["Correo"].ToString()!,
-                            Clave = dr["Clave"].ToString()!,
-                            RolUsuario = new RolUsuario()
+                            usuariosDict[idUsuario] = new Usuario
+                            {
+                                IdUsuario = idUsuario,
+                                NumeroDocumentoIdentidad = dr["NumeroDocumentoIdentidad"].ToString()!,
+                                Nombre = dr["Nombre"].ToString()!,
+                                Apellido = dr["Apellido"].ToString()!,
+                                Correo = dr["Correo"].ToString()!,
+                                Clave = dr["Clave"].ToString()!,
+                                FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"]),
+                                Roles = new List<Rol>()
+                            };
+                        }
+
+                        usuariosDict[idUsuario].Roles.Add(new Rol
+                        {
+                            RolUsuario = new RolUsuario
                             {
                                 IdRolUsuario = Convert.ToInt32(dr["IdRolUsuario"]),
-                                Nombre = dr["NombreRol"].ToString()!,
-                            },
-                            FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"])
+                                Nombre = dr["NombreRol"].ToString()!
+                            }
                         });
                     }
                 }
             }
-            return lista;
 
+            return usuariosDict.Values.ToList();
         }
 
+
+        #endregion
+
+        #region Login Usuario
         public async Task<Usuario> Login(string DocumentoIdentidad, string Clave)
         {
-            Usuario objeto = null!;
+            Usuario? objeto = null;
 
             using (var conexion = new SqlConnection(con.CadenaSQL))
             {
                 await conexion.OpenAsync();
-                SqlCommand cmd = new SqlCommand("sp_loginUsuario", conexion);
+                SqlCommand cmd = new SqlCommand("sp_loginUsuario", conexion)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
                 cmd.Parameters.AddWithValue("@DocumentoIdentidad", DocumentoIdentidad);
                 cmd.Parameters.AddWithValue("@Clave", Clave);
-                cmd.CommandType = CommandType.StoredProcedure;
 
                 using (var dr = await cmd.ExecuteReaderAsync())
                 {
                     while (await dr.ReadAsync())
                     {
-                        objeto = new Usuario()
+                        int idUsuario = Convert.ToInt32(dr["IdUsuario"]);
+
+                        if (objeto == null)
                         {
-                            IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
-                            NumeroDocumentoIdentidad = dr["NumeroDocumentoIdentidad"].ToString()!,
-                            Nombre = dr["Nombre"].ToString()!,
-                            Apellido = dr["Apellido"].ToString()!,
-                            Correo = dr["Correo"].ToString()!,
+                            objeto = new Usuario
+                            {
+                                IdUsuario = idUsuario,
+                                NumeroDocumentoIdentidad = dr["NumeroDocumentoIdentidad"].ToString()!,
+                                Nombre = dr["Nombre"].ToString()!,
+                                Apellido = dr["Apellido"].ToString()!,
+                                Correo = dr["Correo"].ToString()!,
+                                Roles = new List<Rol>()
+                            };
+                        }
+
+                        objeto.Roles.Add(new Rol
+                        {
                             RolUsuario = new RolUsuario
                             {
-                                Nombre = dr["NombreRol"].ToString()!,
+                                IdRolUsuario = Convert.ToInt32(dr["IdRolUsuario"]),
+                                Nombre = dr["NombreRol"].ToString()!
                             }
-                        };
+                        });
                     }
                 }
             }
-            return objeto;
 
+            return objeto!;
         }
+
+
     }
+    #endregion
 }
+

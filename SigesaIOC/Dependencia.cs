@@ -13,10 +13,8 @@ namespace SigesaIOC
         public static void InyectarDependencia(this IServiceCollection services, IConfiguration Configuration)
         {
             services.AddDbContext<SigesaDbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("CadenaSQL"));
-
-            });
+                options.UseSqlServer(Configuration.GetConnectionString("CadenaSQL"))
+              );
 
             services.AddScoped<IRolUsuarioRepositorio, RolUsuarioRepositorio>();
             services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();

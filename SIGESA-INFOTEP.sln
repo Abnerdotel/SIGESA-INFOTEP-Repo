@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SigesaData", "SIGESAData\Si
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SigesaEntidades", "SIGESAEntidades\SigesaEntidades.csproj", "{17BC4260-A56A-460B-AE75-2E4CA3FEEA2A}"
 EndProject
-
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigesaIOC", "SigesaIOC\SigesaIOC.csproj", "{CFE375A0-82D2-41AA-A713-48F6137AD4B2}"
-
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SigesaIOC", "SigesaIOC\SigesaIOC.csproj", "{CFE375A0-82D2-41AA-A713-48F6137AD4B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigesaWebApi", "SigesaWebApi\SigesaWebApi.csproj", "{2DB2ADDA-5883-47C1-A084-0498F5C18D4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,12 +31,14 @@ Global
 		{17BC4260-A56A-460B-AE75-2E4CA3FEEA2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17BC4260-A56A-460B-AE75-2E4CA3FEEA2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17BC4260-A56A-460B-AE75-2E4CA3FEEA2A}.Release|Any CPU.Build.0 = Release|Any CPU
-
 		{CFE375A0-82D2-41AA-A713-48F6137AD4B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CFE375A0-82D2-41AA-A713-48F6137AD4B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFE375A0-82D2-41AA-A713-48F6137AD4B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFE375A0-82D2-41AA-A713-48F6137AD4B2}.Release|Any CPU.Build.0 = Release|Any CPU
-
+		{2DB2ADDA-5883-47C1-A084-0498F5C18D4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DB2ADDA-5883-47C1-A084-0498F5C18D4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DB2ADDA-5883-47C1-A084-0498F5C18D4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DB2ADDA-5883-47C1-A084-0498F5C18D4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

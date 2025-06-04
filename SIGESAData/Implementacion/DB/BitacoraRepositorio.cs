@@ -18,6 +18,7 @@ namespace SigesaData.Implementacion.DB
             con = options.Value;
         }
 
+        #region Registrar Bitacora
         public async Task<string> Registrar(Bitacora objeto)
         {
             string respuesta = "";
@@ -48,7 +49,9 @@ namespace SigesaData.Implementacion.DB
 
             return respuesta;
         }
+        #endregion
 
+        #region Listar Bitacora
         public async Task<List<Bitacora>> Lista(string? modulo = null, string? usuario = null, DateTime? desde = null, DateTime? hasta = null)
         {
             var lista = new List<Bitacora>();
@@ -84,7 +87,9 @@ namespace SigesaData.Implementacion.DB
 
             return lista;
         }
+        #endregion
 
+        #region Obtener Bitacora
         public async Task<Bitacora?> ObtenerPorId(int id)
         {
             Bitacora? registro = null;
@@ -116,9 +121,9 @@ namespace SigesaData.Implementacion.DB
 
             return registro;
         }
+        #endregion
 
-
-        
+        #region Eliminar Bitacora
         public async Task<int> Eliminar(int id)
         {
             int respuesta = 1;
@@ -143,5 +148,6 @@ namespace SigesaData.Implementacion.DB
 
             return respuesta;
         }
+        #endregion
     }
 }

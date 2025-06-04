@@ -16,6 +16,7 @@ namespace SigesaData.Implementacion.DB
             con = options.Value;
         }
 
+        #region Lista Reserva
         public async Task<List<Reserva>> Lista()
         {
             var lista = new List<Reserva>();
@@ -60,7 +61,9 @@ namespace SigesaData.Implementacion.DB
 
             return lista;
         }
+        #endregion
 
+        #region Obtener Reserva
         public async Task<Reserva?> ObtenerPorId(int id)
         {
             Reserva? reserva = null;
@@ -106,7 +109,9 @@ namespace SigesaData.Implementacion.DB
 
             return reserva;
         }
+        #endregion
 
+        #region Guardar Reserva
         public async Task<string> Guardar(Reserva objeto)
         {
             string respuesta = "";
@@ -137,7 +142,9 @@ namespace SigesaData.Implementacion.DB
 
             return respuesta;
         }
+        #endregion
 
+        #region Editar Reserva
         public async Task<string> Editar(Reserva objeto)
         {
             string respuesta = "";
@@ -169,6 +176,9 @@ namespace SigesaData.Implementacion.DB
 
             return respuesta;
         }
+        #endregion
+
+        #region Eliminar Reserva
 
         public async Task<int> Eliminar(int id)
         {
@@ -188,7 +198,9 @@ namespace SigesaData.Implementacion.DB
 
             return resultado;
         }
+        #endregion
 
+        #region Listar Reserva por Usuario
         public async Task<List<Reserva>> ListarPorUsuario(int idUsuario)
         {
             var lista = new List<Reserva>();
@@ -229,7 +241,9 @@ namespace SigesaData.Implementacion.DB
 
             return lista;
         }
+        #endregion
 
+        #region Listar Reserva por Espacio
         public async Task<List<Reserva>> ListarPorEspacio(int idEspacio)
         {
             var lista = new List<Reserva>();
@@ -270,5 +284,6 @@ namespace SigesaData.Implementacion.DB
 
             return lista;
         }
+        #endregion
     }
 }

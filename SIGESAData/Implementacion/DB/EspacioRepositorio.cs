@@ -17,6 +17,8 @@ namespace SigesaData.Implementacion.DB
             con = options.Value;
         }
 
+
+        #region Listar Espacio
         public async Task<List<Espacio>> Lista()
         {
             var lista = new List<Espacio>();
@@ -53,7 +55,9 @@ namespace SigesaData.Implementacion.DB
 
             return lista;
         }
+        #endregion
 
+        #region Obtener Espacio
         public async Task<Espacio?> ObtenerPorId(int id)
         {
             Espacio? espacio = null;
@@ -91,7 +95,9 @@ namespace SigesaData.Implementacion.DB
 
             return espacio;
         }
+        #endregion
 
+        #region Guardar Espacio
         public async Task<string> Guardar(Espacio objeto)
         {
             string mensaje = "";
@@ -120,7 +126,9 @@ namespace SigesaData.Implementacion.DB
 
             return mensaje;
         }
+        #endregion
 
+        #region Editar Espacio
         public async Task<string> Editar(Espacio objeto)
         {
             string mensaje = "";
@@ -150,7 +158,9 @@ namespace SigesaData.Implementacion.DB
 
             return mensaje;
         }
+        #endregion
 
+        #region Eliminar Espacio
         public async Task<int> Eliminar(int id)
         {
             int resultado = 0;
@@ -169,7 +179,9 @@ namespace SigesaData.Implementacion.DB
 
             return resultado;
         }
+        #endregion
 
+        #region Listar Espacio por Tipo
         public async Task<List<Espacio>> ListarPorTipo(int idTipoEspacio)
         {
             var lista = new List<Espacio>();
@@ -207,5 +219,6 @@ namespace SigesaData.Implementacion.DB
 
             return lista;
         }
+        #endregion
     }
 }

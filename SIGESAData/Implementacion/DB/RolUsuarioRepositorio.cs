@@ -15,6 +15,7 @@ namespace SigesaData.Implementacion.DB
             con = options.Value;
         }
 
+        #region Listar Rol Usuario
         public async Task<List<RolUsuario>> Lista()
         {
             List<RolUsuario> lista = new List<RolUsuario>();
@@ -40,5 +41,7 @@ namespace SigesaData.Implementacion.DB
             }
             return lista;
         }
+
+        #endregion
     }
 }
