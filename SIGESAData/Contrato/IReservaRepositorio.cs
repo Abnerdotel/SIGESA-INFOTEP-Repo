@@ -5,13 +5,13 @@ namespace SigesaData.Contrato
 {
     public interface IReservaRepositorio
     {
-        Task<List<Reserva>> Lista();
-        Task<Reserva?> ObtenerPorId(int id);
-        Task<string> Guardar(Reserva objeto);
-        Task<string> Editar(Reserva objeto);
-        Task<int> Eliminar(int id);
-        Task<List<Reserva>> ListarPorUsuario(int idUsuario);
-        Task<List<Reserva>> ListarPorEspacio(int idEspacio);
-
+        Task<IEnumerable<Reserva>> ObtenerListaAsync();
+        Task<Reserva?> ObtenerPorIdAsync(int id);
+        Task<int> GuardarAsync(Reserva reserva);
+        Task<bool> EditarAsync(Reserva reserva);
+        Task<bool> EliminarAsync(int id);
+        Task<IEnumerable<Reserva>> ObtenerPorUsuarioAsync(int idUsuario);
+        Task<IEnumerable<Reserva>> ObtenerPorEspacioAsync(int idEspacio);
     }
+
 }

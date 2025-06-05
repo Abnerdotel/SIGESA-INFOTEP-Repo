@@ -5,11 +5,11 @@ namespace SigesaData.Contrato
 {
     public interface IRolRepositorio
     {
-        Task<List<Rol>> Lista();
-        Task<Rol?> ObtenerPorId(int id);
-        Task<string> Guardar(Rol objeto);
-        Task<string> Editar(Rol objeto);
-        Task<int> Eliminar(int id);
-
+        Task<IEnumerable<Rol>> ObtenerListaAsync();
+        Task<Rol?> ObtenerPorIdAsync(int id);
+        Task<int> GuardarAsync(Rol rol);
+        Task<bool> EditarAsync(Rol rol);
+        Task<bool> EliminarAsync(int id);
     }
+
 }

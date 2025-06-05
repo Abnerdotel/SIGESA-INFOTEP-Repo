@@ -6,12 +6,12 @@ namespace SigesaData.Contrato
 {
     public interface IEspacioRepositorio
     {
-        Task<List<Espacio>> Lista();
-        Task<Espacio?> ObtenerPorId(int id);
-        Task<string> Guardar(Espacio objeto);
-        Task<string> Editar(Espacio objeto);
-        Task<int> Eliminar(int id);
-        Task<List<Espacio>> ListarPorTipo(int idTipo);
-
+        Task<IEnumerable<Espacio>> ObtenerListaAsync();
+        Task<Espacio?> ObtenerPorIdAsync(int id);
+        Task<int> GuardarAsync(Espacio espacio);
+        Task<bool> EditarAsync(Espacio espacio);
+        Task<bool> EliminarAsync(int id);
+        Task<IEnumerable<Espacio>> ObtenerPorTipoAsync(int idTipo);
     }
+
 }

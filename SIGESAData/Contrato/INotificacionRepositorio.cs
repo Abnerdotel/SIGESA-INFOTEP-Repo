@@ -5,8 +5,9 @@ using SigesaEntidades;
 namespace SigesaData.Contrato
 {
     public interface INotificacionRepositorio
-    {   
-            Task<string> Registrar(Notificacion objeto);
-            Task<List<Notificacion>> ListarPorUsuario(int idUsuario); 
+    {
+        Task<int> RegistrarAsync(Notificacion notificacion);
+        Task<IEnumerable<Notificacion>> ObtenerPorUsuarioAsync(int idUsuario);
     }
+
 }

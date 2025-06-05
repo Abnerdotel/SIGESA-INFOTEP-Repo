@@ -5,6 +5,6 @@ namespace SigesaData.Contrato
 {
     public interface IRolUsuarioRepositorio
     {
-        Task<List<RolUsuario>> Lista();
+        Task<IEnumerable<RolUsuario>> ObtenerListaAsync();
     }
 }
