@@ -19,18 +19,18 @@ namespace SigesaData.Context
             base.OnConfiguring(optionsBuilder);
         }
 
-        public DbSet<Usuario> Usuario { get; set; }
-        public DbSet<RolUsuario> RolUsuario { get; set; }
-        public DbSet<Rol> Rol {  get; set; }
-        public DbSet<Reserva> Reserva { get; set; }
-        public DbSet<EstadoReserva> EstadoReserva { get; set; }
-        public DbSet<Espacio> Espacio { get; set; }
-        public DbSet<TipoEspacio> TipoEspacio { get; set; }
-        public DbSet<Equipamiento> Equipamiento { get; set; }
-        public DbSet<EspacioEquipamiento> EspacioEquipamiento { get; set; }
-        public DbSet<Notificacion> Notificacion { get; set; }
-        public DbSet<TipoNotificacion> TipoNotificacion { get; set; }
-        public DbSet<Bitacora> Bitacora { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<RolUsuario> RolUsuarios { get; set; }
+        public DbSet<Rol> Roles {  get; set; }
+        public DbSet<Reserva> Reservas { get; set; }
+        public DbSet<EstadoReserva> EstadoReservas { get; set; }
+        public DbSet<Espacio> Espacios { get; set; }
+        public DbSet<TipoEspacio> TipoEspacios { get; set; }
+        public DbSet<Equipamiento> Equipamientos { get; set; }
+        public DbSet<EspacioEquipamiento> EspacioEquipamientos { get; set; }
+        public DbSet<Notificacion> Notificaciones { get; set; }
+        public DbSet<TipoNotificacion> TipoNotificaciones { get; set; }
+        public DbSet<Bitacora> Bitacoras { get; set; }
 
 
 

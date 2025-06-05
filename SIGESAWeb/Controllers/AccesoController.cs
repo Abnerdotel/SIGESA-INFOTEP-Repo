@@ -38,7 +38,7 @@ namespace SigesaWeb.Controllers
                 return View();
             }
 
-            Usuario usuario_encontrado = await _repositorio.Login(modelo.DocumentoIdentidad, modelo.Clave);
+            Usuario usuario_encontrado = await _repositorio.(modelo.DocumentoIdentidad, modelo.Clave);
 
             if (usuario_encontrado == null)
             {
@@ -96,7 +96,7 @@ namespace SigesaWeb.Controllers
                 //    IdRolUsuario = 2
                 //}
             };
-            string resultado = await _repositorio.Guardar(objeto);
+            string resultado = await _repositorio.EditarAsync(objeto);
             ViewBag.Mensaje = resultado;
             if (resultado == "")
             {

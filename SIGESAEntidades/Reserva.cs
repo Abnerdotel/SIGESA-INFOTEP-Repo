@@ -6,8 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace SigesaEntidades
 {
     public class Reserva
-    {
-      
+    {      
         public int IdReserva { get; set; }
         public int IdEspacio { get; set; }       
         public virtual Espacio Espacio { get; set; } = null!;

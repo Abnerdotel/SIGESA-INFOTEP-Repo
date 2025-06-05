@@ -1,14 +1,26 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Options;
-using SigesaData.Configuracion;
+﻿using Microsoft.EntityFrameworkCore;
+using SigesaData.Context;
 using SigesaData.Contrato;
 using SigesaEntidades;
-using System.Data;
+
 
 namespace SigesaData.Implementacion.DB
 {
     public class RolUsuarioRepositorio : IRolUsuarioRepositorio
     {
-        
+        private readonly SigesaDbContext _context;
+
+        public RolUsuarioRepositorio(SigesaDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<IEnumerable<RolUsuario>> ObtenerListaAsync()
+        {
+            return await _context.RolUsuarios
+                .Include(r => r.Roles)
+                .ToListAsync();
+        }
     }
 }
+

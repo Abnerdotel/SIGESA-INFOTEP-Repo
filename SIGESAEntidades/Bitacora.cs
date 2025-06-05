@@ -14,7 +14,7 @@ namespace SigesaEntidades
         public string Detalle { get; set; } = null!;     
         public DateTime FechaAccion { get; set; }
 
-        // Relación opcional con Usuario
+        // Relación con Usuario
 
         public int IdUsuario { get; set; }
 

@@ -26,6 +26,7 @@ namespace SigesaIOC
             services.AddScoped<INotificacionRepositorio, NotificacionRepositorio>();
             services.AddScoped<IReservaRepositorio, ReservaRepositorio>();
 
+
         }
 
     }
