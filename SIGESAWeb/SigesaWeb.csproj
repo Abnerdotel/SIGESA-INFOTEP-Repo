@@ -8,7 +8,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\SIGESAData\SigesaData.csproj" />
-		<ProjectReference Include="..\SigesaIOC\SigesaIOC.csproj" />
 	</ItemGroup>
 
 </Project>

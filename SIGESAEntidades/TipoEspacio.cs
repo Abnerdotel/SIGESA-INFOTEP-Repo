@@ -1,9 +1,4 @@
 ﻿
-
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-
 namespace SigesaEntidades
 {
     public class TipoEspacio

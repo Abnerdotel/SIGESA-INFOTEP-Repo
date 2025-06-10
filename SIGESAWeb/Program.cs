@@ -1,9 +1,10 @@
 
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using SigesaData.Configuracion;
+using SigesaData.Context;
 using SigesaData.Contrato;
 using SigesaData.Implementacion.DB;
-using SigesaIOC;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,11 @@ builder.Services.AddControllersWithViews();
 //builder.Services.InyectarDependencia(builder.Configuration);
 
 #region Dependencias
-builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
+//builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
+
+builder.Services.AddDbContext<SigesaDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStrings")));
+
 builder.Services.AddScoped<IRolUsuarioRepositorio, RolUsuarioRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<IBitacoraRepositorio, BitacoraRepositorio>();
@@ -25,7 +30,7 @@ builder.Services.AddScoped<IReservaRepositorio, ReservaRepositorio>();
 #endregion
 
 //builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("CadenaSQL"));
-builder.Services.InyectarDependencia(builder.Configuration);
+//builder.Services.InyectarDependencia(builder.Configuration);
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

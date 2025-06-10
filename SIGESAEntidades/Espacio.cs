@@ -1,7 +1,5 @@
 ﻿
 
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 
 namespace SigesaEntidades
 {
@@ -15,7 +13,7 @@ namespace SigesaEntidades
         public int IdTipoEspacio { get; set; }
         public virtual TipoEspacio Tipo { get; set; } = null!;
         public virtual ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
-        public virtual ICollection<EspacioEquipamiento> Equipamientos { get; set; } = new List<EspacioEquipamiento>();
+        public virtual ICollection<EspacioEquipamiento> EspacioEquipamientos { get; set; } = new List<EspacioEquipamiento>();
     }
 
 }
