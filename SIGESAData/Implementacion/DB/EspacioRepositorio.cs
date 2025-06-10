@@ -30,7 +30,7 @@ namespace SigesaData.Implementacion.DB
         {
             return await _context.Espacios
                 .Include(e => e.Tipo)
-                .Include(e => e.Equipamientos)
+                .Include(e => e.EspacioEquipamientos)
                 .ThenInclude(ee => ee.Equipamiento)
                 .FirstOrDefaultAsync(e => e.IdEspacio == id);
         }

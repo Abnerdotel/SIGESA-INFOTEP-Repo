@@ -24,7 +24,7 @@ namespace SigesaData.Implementacion.DB
         public async Task<Equipamiento?> ObtenerPorIdAsync(int id)
         {
             return await _context.Equipamientos
-                .Include(e => e.Espacios)
+                .Include(e => e.EspacioEquipamientos)
                 .ThenInclude(ee => ee.Espacio)
                 .FirstOrDefaultAsync(e => e.IdEquipamiento == id);
         }

@@ -19,33 +19,36 @@ namespace SigesaWeb.Controllers
             return View();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Lista()
-        {
-            List<Usuario> lista = await _repositorio.ObtenerListaAsync();
-            return StatusCode(StatusCodes.Status200OK, new { data = lista });
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> Lista()
+        //{
+        //   // List<Usuario> lista = await _repositorio.ObtenerListaAsync();
 
-        [HttpPost]
-        public async Task<IActionResult> Guardar([FromBody] Usuario objeto)
-        {
-            string respuesta = await _repositorio.Guardar(objeto);
-            return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
-        }
+        //    //List<Usuario> lista = await _repositorio.ObtenerListaAsync();
 
-        [HttpPut]
-        public async Task<IActionResult> Editar([FromBody] Usuario objeto)
-        {
-            //string respuesta = await _repositorio.Editar(objeto);
-            string respuesta =await _repositorio.EditarAsync(objeto);
-            return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
-        }
+        //    return StatusCode(StatusCodes.Status200OK, new { data = lista });
+        //}
 
-        [HttpDelete]
-        public async Task<ActionResult> Eliminar(int Id)
-        {
-            int respuesta = await _repositorio.EliminarAsyncc(Id);
-            return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> Guardar([FromBody] Usuario objeto)
+        //{
+        //    string respuesta = await _repositorio.GuardarAsync(objeto);
+        //    return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
+        //}
+
+        //[HttpPut]
+        //public async Task<IActionResult> Editar([FromBody] Usuario objeto)
+        //{
+        //    //string respuesta = await _repositorio.Editar(objeto);
+        //    string respuesta = await _repositorio.EditarAsync(objeto);
+        //    return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
+        //}
+
+        //[HttpDelete]
+        //public async Task<ActionResult> Eliminar(int Id)
+        //{
+        //    int respuesta = await _repositorio.EliminarAsync(Id);
+        //    return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
+        //}
     }
 }
