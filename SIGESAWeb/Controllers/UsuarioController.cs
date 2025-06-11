@@ -22,9 +22,9 @@ namespace SigesaWeb.Controllers
         //[HttpGet]
         //public async Task<IActionResult> Lista()
         //{
-        //   // List<Usuario> lista = await _repositorio.ObtenerListaAsync();
+        //    // List<Usuario> lista = await _repositorio.ObtenerListaAsync();
 
-        //    //List<Usuario> lista = await _repositorio.ObtenerListaAsync();
+        //    List<Usuario> lista = await _repositorio.ObtenerListaAsync();
 
         //    return StatusCode(StatusCodes.Status200OK, new { data = lista });
         //}

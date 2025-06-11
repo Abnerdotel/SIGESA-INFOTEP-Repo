@@ -18,8 +18,10 @@ builder.Services.AddControllersWithViews();
 #region Dependencias
 //builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
 
+
 builder.Services.AddDbContext<SigesaDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStrings")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CadenaSQL")));
+
 
 builder.Services.AddScoped<IRolUsuarioRepositorio, RolUsuarioRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();

@@ -38,6 +38,7 @@ namespace SigesaWeb.Controllers
                 return View();
             }
 
+            //Usuario usuario_encontrado = await _repositorio.AutenticarAsync(modelo.DocumentoIdentidad, modelo.Clave);
             Usuario usuario_encontrado = await _repositorio.AutenticarAsync(modelo.DocumentoIdentidad, modelo.Clave);
 
             if (usuario_encontrado == null)

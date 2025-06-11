@@ -1,8 +1,13 @@
-﻿namespace SigesaEntidades
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace SigesaEntidades
 {
 
     public class Usuario
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdUsuario { get; set; }
         public string NumeroDocumentoIdentidad { get; set; } = null!;
         public string Nombre { get; set; } = null!;

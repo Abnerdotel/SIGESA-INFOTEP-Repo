@@ -7,6 +7,8 @@ namespace SigesaEntidades
 {
     public class Bitacora
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdBitacora { get; set; }       
         public string Modulo { get; set; } = null!;
     
@@ -17,7 +19,7 @@ namespace SigesaEntidades
         // Relación con Usuario
 
         public int IdUsuario { get; set; }
-
+        [ForeignKey("IdUsuario")]
         public virtual Usuario Usuario { get; set; } = null!;
     }
 
