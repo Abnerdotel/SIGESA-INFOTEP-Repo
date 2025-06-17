@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SigesaData.Configuracion;
 using SigesaData.Context;
+using SigesaData.Context.SigesaData.Context;
 using SigesaData.Contrato;
 using SigesaEntidades;
 using System.Data;

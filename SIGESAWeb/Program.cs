@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using SigesaData.Configuracion;
 using SigesaData.Context;
+using SigesaData.Context.SigesaData.Context;
 using SigesaData.Contrato;
 using SigesaData.Implementacion;
 using SigesaData.Implementacion.DB;

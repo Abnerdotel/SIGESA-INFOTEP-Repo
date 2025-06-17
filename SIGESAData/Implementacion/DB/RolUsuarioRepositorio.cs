@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SigesaData.Context;
+using SigesaData.Context.SigesaData.Context;
 using SigesaData.Contrato;
 using SigesaEntidades;
 
