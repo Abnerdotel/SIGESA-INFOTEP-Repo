@@ -3,18 +3,21 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using SigesaData.Contrato;
 using SigesaEntidades;
-using SigesaWeb.Models.DTOS;
-using System.Security.Claims;
 using SigesaWeb.Models.DTOs;
+using System.Security.Claims;
+using SigesaWeb.Models.DTOS;
 
 namespace SigesaWeb.Controllers
 {
     public class AccesoController : Controller
     {
-        private readonly IUsuarioRepositorio _repositorio;
-        public AccesoController(IUsuarioRepositorio repositorio)
+        private readonly IUsuarioRepositorio _usuarioRepositorio;
+        private readonly IRolRepositorio _rolRepositorio;
+
+        public AccesoController(IUsuarioRepositorio usuarioRepositorio, IRolRepositorio rolRepositorio)
         {
-            _repositorio = repositorio;
+            _usuarioRepositorio = usuarioRepositorio;
+            _rolRepositorio = rolRepositorio;
         }
 
         public IActionResult Login()
@@ -22,96 +25,108 @@ namespace SigesaWeb.Controllers
             ClaimsPrincipal claimuser = HttpContext.User;
             if (claimuser.Identity!.IsAuthenticated)
             {
-                string rol = claimuser.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault()!;
+                string rol = claimuser.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "";
                 if (rol == "Administrador") return RedirectToAction("Index", "Home");
                 if (rol == "Usuario") return RedirectToAction("Index", "Cursos");
                 if (rol == "Coordinador") return RedirectToAction("Index", "Home");
             }
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(VMUsuarioLogin modelo)
         {
-            if (modelo.DocumentoIdentidad == null || modelo.Clave == null)
+            if (string.IsNullOrWhiteSpace(modelo.DocumentoIdentidad) || string.IsNullOrWhiteSpace(modelo.Clave))
             {
-                ViewData["Mensaje"] = "No se encontraron coincidencias";
+                ViewData["Mensaje"] = "Debe ingresar todos los campos.";
                 return View();
             }
 
-            //Usuario usuario_encontrado = await _repositorio.AutenticarAsync(modelo.DocumentoIdentidad, modelo.Clave);
-            Usuario usuario_encontrado = await _repositorio.AutenticarAsync(modelo.DocumentoIdentidad, modelo.Clave);
+            Usuario? usuario = await _usuarioRepositorio.AutenticarAsync(modelo.DocumentoIdentidad, modelo.Clave);
 
-            if (usuario_encontrado == null)
+            if (usuario == null)
             {
-                ViewData["Mensaje"] = "No se encontraron coincidencias";
+                ViewData["Mensaje"] = "Credenciales incorrectas.";
                 return View();
             }
 
-            ViewData["Mensaje"] = null;
+            string rol = usuario.Roles.FirstOrDefault()?.RolUsuario?.Nombre ?? "Usuario";
 
-            //aqui guarderemos la informacion de nuestro usuario
-            List<Claim> claims = new List<Claim>()
+            List<Claim> claims = new()
             {
-                new Claim(ClaimTypes.Name, $"{usuario_encontrado.Nombre} {usuario_encontrado.Apellido}"),
-                new Claim(ClaimTypes.NameIdentifier, usuario_encontrado.IdUsuario.ToString()),
-                //new Claim(ClaimTypes.Role,usuario_encontrado.RolUsuario.Nombre)
+                new Claim(ClaimTypes.Name, $"{usuario.Nombre} {usuario.Apellido}"),
+                new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()),
+                new Claim(ClaimTypes.Role, rol)
             };
 
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            AuthenticationProperties properties = new AuthenticationProperties()
+            var authProperties = new AuthenticationProperties
             {
                 AllowRefresh = true
             };
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity), authProperties);
 
-            string rol = usuario_encontrado.Nombre;
-            if (rol == "Usuario") return RedirectToAction("Index", "Cursos");
-            if (rol == "Administrador") return RedirectToAction("CursosAsginados", "Cursos");
-
-            return RedirectToAction("Index", "Home");
+            return rol switch
+            {
+                "Administrador" => RedirectToAction("Index", "Home"),
+                "Usuario" => RedirectToAction("Index", "Cursos"),
+                "Coordinador" => RedirectToAction("Index", "Home"),
+                _ => RedirectToAction("Login")
+            };
         }
+
         public IActionResult Registrarse()
         {
             return View();
         }
-       // [HttpPost]
-        //    public async Task<IActionResult> Registrarse(VMUsuario modelo)
-        //    {
-        //        if (modelo.Clave != modelo.ConfirmarClave)
-        //        {
-        //            ViewBag.Mensaje = "Las contraseñas no coinciden";
-        //            return View();
-        //        }
 
-        //        Usuario objeto = new Usuario()
-        //        {
-        //            NumeroDocumentoIdentidad = modelo.DocumentoIdentidad,
-        //            Nombre = modelo.Nombre,
-        //            Apellido = modelo.Apellido,
-        //            Correo = modelo.Correo,
-        //            Clave = modelo.Clave,
-        //            RolUsuario = new RolUsuario()
-        //            {
-        //                IdRolUsuario = 2
-        //            }
-        //        };
-        //        bool resultado = await _repositorio.EditarAsync(objeto);
-        //        ViewBag.Mensaje = resultado;
-        //        if (resultado == true)
-        //        {
-        //            ViewBag.Creado = true;
-        //            ViewBag.Mensaje = "Su cuenta ha sido creada.";
-        //        }
-        //        return View();
-        //    }
+        [HttpPost]
+        public async Task<IActionResult> Registrarse(VMUsuario modelo)
+        {
+            if (modelo.Clave != modelo.ConfirmarClave)
+            {
+                ViewBag.Mensaje = "Las contraseñas no coinciden.";
+                return View();
+            }
 
-        //    public IActionResult Denegado()
-        //    {
-        //        return View();
-        //    }
-        //}
+            Usuario nuevoUsuario = new()
+            {
+                NumeroDocumentoIdentidad = modelo.DocumentoIdentidad,
+                Nombre = modelo.Nombre,
+                Apellido = modelo.Apellido,
+                Correo = modelo.Correo,
+                Clave = modelo.Clave,
+                FechaCreacion = DateTime.Now
+            };
 
-    } 
+            int idGenerado = await _usuarioRepositorio.GuardarAsync(nuevoUsuario);
+
+            if (idGenerado > 0)
+            {
+                Rol nuevoRol = new()
+                {
+                    IdUsuario = idGenerado,
+                    IdRolUsuario = 3, // Usuario normal
+                    FechaCreacion = DateTime.Now
+                };
+
+                await _rolRepositorio.GuardarAsync(nuevoRol);
+
+                ViewBag.Creado = true;
+                ViewBag.Mensaje = "Cuenta creada correctamente.";
+                return View();
+            }
+
+            ViewBag.Mensaje = "No se pudo registrar el usuario.";
+            return View();
+        }
+
+        public IActionResult Denegado()
+        {
+            return View();
+        }
+    }
 }

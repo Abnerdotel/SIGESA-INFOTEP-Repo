@@ -9,17 +9,34 @@ namespace SigesaEntidades
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdUsuario { get; set; }
+
+        [Required]
         public string NumeroDocumentoIdentidad { get; set; } = null!;
+
+        [Required]
         public string Nombre { get; set; } = null!;
+
+        [Required]
         public string Apellido { get; set; } = null!;
+
+        [Required]
+        [EmailAddress]
         public string Correo { get; set; } = null!;
+
+        [Required]
         public string Clave { get; set; } = null!;
+
         public DateTime FechaCreacion { get; set; }
+
+        // Relacion muchos a muchos a travas de Rol
         public virtual ICollection<Rol> Roles { get; set; } = new List<Rol>();
+
+        // Otras relaciones del sistema
         public virtual ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
         public virtual ICollection<Notificacion> Notificaciones { get; set; } = new List<Notificacion>();
         public virtual ICollection<Bitacora> Bitacoras { get; set; } = new List<Bitacora>();
     }
+
 
 
 }

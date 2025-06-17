@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SigesaData.Context;
+using SigesaData.Context.SigesaData.Context;
 using SigesaData.Contrato;
 using SigesaEntidades;
 
@@ -37,16 +38,6 @@ namespace SigesaData.Implementacion
             return rol.IdRol;
         }
 
-        public async Task<bool> EditarAsync(Rol rol)
-        {
-            var existente = await _context.Roles.FindAsync(rol.IdRol);
-            if (existente == null) return false;
-
-            _context.Entry(existente).CurrentValues.SetValues(rol);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
         public async Task<bool> EliminarAsync(int id)
         {
             var rol = await _context.Roles.FindAsync(id);
@@ -56,6 +47,13 @@ namespace SigesaData.Implementacion
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<IEnumerable<Rol>> ObtenerPorUsuarioAsync(int idUsuario)
+        {
+            return await _context.Roles
+                .Include(r => r.RolUsuario)
+                .Where(r => r.IdUsuario == idUsuario)
+                .ToListAsync();
+        }
     }
 }
-
