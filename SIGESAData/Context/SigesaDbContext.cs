@@ -15,6 +15,15 @@ namespace SigesaData.Context
 
             public SigesaDbContext(DbContextOptions<SigesaDbContext> options) : base(options) { }
 
+
+            protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            {
+                if (!optionsBuilder.IsConfigured)
+                {
+                    optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=DBSIGESA;Integrated Security=True;TrustServerCertificate=True");
+                }
+            }
+
             public DbSet<Usuario> Usuarios { get; set; }
             public DbSet<RolUsuario> RolUsuarios { get; set; }
             public DbSet<Rol> Roles { get; set; }
@@ -30,6 +39,8 @@ namespace SigesaData.Context
 
             protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
+
+                var fechaBase = new DateTime(2024, 1, 1); 
                 // Tablas
                 modelBuilder.Entity<Usuario>().ToTable("Usuario");
                 modelBuilder.Entity<RolUsuario>().ToTable("RolUsuario");
@@ -100,32 +111,41 @@ namespace SigesaData.Context
                     .WithMany(e => e.EspacioEquipamientos)
                     .HasForeignKey(ee => ee.IdEspacio);
 
-                // Seeding de roles base
-                modelBuilder.Entity<RolUsuario>().HasData(
-                    new RolUsuario
-                    {
-                        IdRolUsuario = 1,
-                        Nombre = "Administrador",
-                        FechaCreacion = DateTime.Now
-                    },
-                    new RolUsuario
-                    {
-                        IdRolUsuario = 2,
-                        Nombre = "Coordinador",
-                        FechaCreacion = DateTime.Now
-                    },
-                    new RolUsuario
-                    {
-                        IdRolUsuario = 3,
-                        Nombre = "Usuario",
-                        FechaCreacion = DateTime.Now
-                    }
-                );
 
-                // Restricción para evitar duplicación de rol en usuario
+                // Restriccion para evitar duplicacion de rol en usuario
                 modelBuilder.Entity<Rol>()
                     .HasIndex(r => new { r.IdUsuario, r.IdRolUsuario })
                     .IsUnique();
+
+
+                // Seeding de valores obligatorios
+
+                //Usuarios
+                modelBuilder.Entity<RolUsuario>().HasData(
+                    new RolUsuario { IdRolUsuario = 1, Nombre = "Administrador", FechaCreacion = fechaBase },
+                    new RolUsuario { IdRolUsuario = 2, Nombre = "Coordinador", FechaCreacion = fechaBase },
+                    new RolUsuario { IdRolUsuario = 3, Nombre = "Usuario", FechaCreacion = fechaBase }
+                );
+
+                modelBuilder.Entity<EstadoReserva>().HasData(
+                    new EstadoReserva { IdEstado = 1, Nombre = "Pendiente", FechaCreacion = fechaBase },
+                    new EstadoReserva { IdEstado = 2, Nombre = "Aprobada", FechaCreacion = fechaBase },
+                    new EstadoReserva { IdEstado = 3, Nombre = "Cancelada", FechaCreacion = fechaBase }
+                );
+
+                modelBuilder.Entity<TipoEspacio>().HasData(
+                    new TipoEspacio { IdTipoEspacio = 1, Nombre = "Aula", FechaCreacion = fechaBase },
+                    new TipoEspacio { IdTipoEspacio = 2, Nombre = "Sala de Reunión", FechaCreacion = fechaBase },
+                    new TipoEspacio { IdTipoEspacio = 3, Nombre = "Laboratorio", FechaCreacion = fechaBase }
+                );
+
+                modelBuilder.Entity<TipoNotificacion>().HasData(
+                    new TipoNotificacion { IdTipoNotificacion = 1, Nombre = "Confirmación de reserva", FechaCreacion = fechaBase },
+                    new TipoNotificacion { IdTipoNotificacion = 2, Nombre = "Rechazo de reserva", FechaCreacion = fechaBase },
+                    new TipoNotificacion { IdTipoNotificacion = 3, Nombre = "Recordatorio", FechaCreacion = fechaBase }
+                );
+
+
             }
         }
     }

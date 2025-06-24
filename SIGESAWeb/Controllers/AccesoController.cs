@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using SigesaData.Contrato;
 using SigesaEntidades;
 using SigesaWeb.Models.DTOs;
-using System.Security.Claims;
 using SigesaWeb.Models.DTOS;
+using SigesaData.Utilidades;
+using System.Security.Claims;
 
 namespace SigesaWeb.Controllers
 {
@@ -22,20 +23,28 @@ namespace SigesaWeb.Controllers
 
         public IActionResult Login()
         {
-            ClaimsPrincipal claimuser = HttpContext.User;
-            if (claimuser.Identity!.IsAuthenticated)
+            var claimUser = HttpContext.User;
+            
+
+            if (claimUser.Identity != null && claimUser.Identity.IsAuthenticated)
             {
-                string rol = claimuser.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "";
-                if (rol == "Administrador") return RedirectToAction("Index", "Home");
-                if (rol == "Usuario") return RedirectToAction("Index", "Cursos");
-                if (rol == "Coordinador") return RedirectToAction("Index", "Home");
+                string rol = claimUser.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "";
+                return rol switch
+                {
+                    "Administrador" => RedirectToAction("Index", "Home"),
+                    "Usuario" => RedirectToAction("Index", "Home"),
+                    "Coordinador" => RedirectToAction("Index", "Home"),
+                    _ => RedirectToAction("Login")
+                };
             }
+
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(VMUsuarioLogin modelo)
         {
+            
             if (string.IsNullOrWhiteSpace(modelo.DocumentoIdentidad) || string.IsNullOrWhiteSpace(modelo.Clave))
             {
                 ViewData["Mensaje"] = "Debe ingresar todos los campos.";
@@ -50,29 +59,36 @@ namespace SigesaWeb.Controllers
                 return View();
             }
 
-            string rol = usuario.Roles.FirstOrDefault()?.RolUsuario?.Nombre ?? "Usuario";
+            // Asegurarse de que los roles estén cargados
+            var rolAsignado = usuario.Roles
+                .Select(r => r.RolUsuario?.Nombre)
+                .FirstOrDefault() ?? "Usuario";
 
-            List<Claim> claims = new()
+            // Crear Claims
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, $"{usuario.Nombre} {usuario.Apellido}"),
                 new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()),
-                new Claim(ClaimTypes.Role, rol)
+                new Claim(ClaimTypes.Role, rolAsignado)
             };
 
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             var authProperties = new AuthenticationProperties
             {
                 AllowRefresh = true
             };
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity), authProperties);
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(identity),
+                authProperties
+            );
 
-            return rol switch
+            return rolAsignado switch
             {
                 "Administrador" => RedirectToAction("Index", "Home"),
-                "Usuario" => RedirectToAction("Index", "Cursos"),
+                "Usuario" => RedirectToAction("Index", "Home"),
                 "Coordinador" => RedirectToAction("Index", "Home"),
                 _ => RedirectToAction("Login")
             };
@@ -97,7 +113,7 @@ namespace SigesaWeb.Controllers
                 NumeroDocumentoIdentidad = modelo.DocumentoIdentidad,
                 Nombre = modelo.Nombre,
                 Apellido = modelo.Apellido,
-                Correo = modelo.Correo,
+                Correo = modelo.Correo,            
                 Clave = modelo.Clave,
                 FechaCreacion = DateTime.Now
             };

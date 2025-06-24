@@ -2,6 +2,7 @@
 using SigesaData.Context;
 using SigesaData.Context.SigesaData.Context;
 using SigesaData.Contrato;
+using SigesaData.Utilidades;
 using SigesaEntidades;
 using System.Data;
 
@@ -41,6 +42,8 @@ namespace SigesaData.Implementacion.DB
 
         public async Task<int> GuardarAsync(Usuario usuario)
         {
+
+            usuario.Clave= Encriptador.HashearClave(usuario.Clave);
             _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
             return usuario.IdUsuario;

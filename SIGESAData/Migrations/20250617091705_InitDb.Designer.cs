@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SigesaData.Context;
 using SigesaData.Context.SigesaData.Context;
 
 #nullable disable
@@ -13,7 +12,7 @@ using SigesaData.Context.SigesaData.Context;
 namespace SigesaData.Migrations
 {
     [DbContext(typeof(SigesaDbContext))]
-    [Migration("20250611134456_InitDb")]
+    [Migration("20250617091705_InitDb")]
     partial class InitDb
     {
         /// <inheritdoc />
@@ -248,7 +247,8 @@ namespace SigesaData.Migrations
 
                     b.HasIndex("IdRolUsuario");
 
-                    b.HasIndex("IdUsuario");
+                    b.HasIndex("IdUsuario", "IdRolUsuario")
+                        .IsUnique();
 
                     b.ToTable("Rol", (string)null);
                 });
@@ -271,6 +271,26 @@ namespace SigesaData.Migrations
                     b.HasKey("IdRolUsuario");
 
                     b.ToTable("RolUsuario", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            IdRolUsuario = 1,
+                            FechaCreacion = new DateTime(2025, 6, 17, 5, 17, 5, 364, DateTimeKind.Local).AddTicks(6688),
+                            Nombre = "Administrador"
+                        },
+                        new
+                        {
+                            IdRolUsuario = 2,
+                            FechaCreacion = new DateTime(2025, 6, 17, 5, 17, 5, 364, DateTimeKind.Local).AddTicks(6707),
+                            Nombre = "Coordinador"
+                        },
+                        new
+                        {
+                            IdRolUsuario = 3,
+                            FechaCreacion = new DateTime(2025, 6, 17, 5, 17, 5, 364, DateTimeKind.Local).AddTicks(6709),
+                            Nombre = "Usuario"
+                        });
                 });
 
             modelBuilder.Entity("SigesaEntidades.TipoEspacio", b =>

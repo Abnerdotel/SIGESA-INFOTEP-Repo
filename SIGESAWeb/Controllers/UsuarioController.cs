@@ -19,36 +19,52 @@ namespace SigesaWeb.Controllers
             return View();
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Lista()
-        //{
-        //    // List<Usuario> lista = await _repositorio.ObtenerListaAsync();
+        [HttpGet]
+        public async Task<IActionResult> Lista()
+        {
+         
+            IEnumerable<Usuario> lista = await _repositorio.ObtenerListaAsync();
+         
 
-        //    List<Usuario> lista = await _repositorio.ObtenerListaAsync();
+            var usuarios = await _repositorio.ObtenerListaAsync();
 
-        //    return StatusCode(StatusCodes.Status200OK, new { data = lista });
-        //}
+            var resultado = usuarios.Select(u => new
+            {
+                idUsuario = u.IdUsuario,
+                numeroDocumentoIdentidad = u.NumeroDocumentoIdentidad,
+                nombre = u.Nombre,
+                apellido = u.Apellido,
+                correo = u.Correo,
+               // clave = "", // Por seguridad, nunca devuelvas la clave real
+                fechaCreacion = u.FechaCreacion.ToString("dd/MM/yyyy")
+            });
 
-        //[HttpPost]
-        //public async Task<IActionResult> Guardar([FromBody] Usuario objeto)
-        //{
-        //    string respuesta = await _repositorio.GuardarAsync(objeto);
-        //    return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
-        //}
+            return Json(new { data = resultado });
+        }
 
-        //[HttpPut]
-        //public async Task<IActionResult> Editar([FromBody] Usuario objeto)
-        //{
-        //    //string respuesta = await _repositorio.Editar(objeto);
-        //    string respuesta = await _repositorio.EditarAsync(objeto);
-        //    return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Guardar([FromBody] Usuario objeto)
+        {
 
-        //[HttpDelete]
-        //public async Task<ActionResult> Eliminar(int Id)
-        //{
-        //    int respuesta = await _repositorio.EliminarAsync(Id);
-        //    return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
-        //}
+
+            int respuesta = await _repositorio.GuardarAsync(objeto);
+            return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
+
+
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Editar([FromBody] Usuario objeto)
+        {
+            bool respuesta = await _repositorio.EditarAsync(objeto);
+            return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> Eliminar(int Id)
+        {
+            bool respuesta = await _repositorio.EliminarAsync(Id);
+           return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
+        }
     }
 }
