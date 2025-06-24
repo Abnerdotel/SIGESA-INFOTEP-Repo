@@ -18,9 +18,7 @@ namespace SigesaData.Implementacion.DB
 
         public async Task<IEnumerable<RolUsuario>> ObtenerListaAsync()
         {
-            return await _context.RolUsuarios
-                .Include(r => r.Roles)
-                .ToListAsync();
+            return await _context.RolUsuarios.ToListAsync();
         }
     }
 }

@@ -33,9 +33,23 @@ namespace SigesaData.Implementacion
 
         public async Task<int> GuardarAsync(Rol rol)
         {
+            rol.FechaCreacion = DateTime.Now;
             _context.Roles.Add(rol);
             await _context.SaveChangesAsync();
             return rol.IdRol;
+        }
+
+        public async Task<bool> EditarAsync(Rol rol)
+        {
+            var existente = await _context.Roles.FindAsync(rol.IdRol);
+            if (existente == null) return false;
+
+            existente.IdRolUsuario = rol.IdRolUsuario;
+            existente.IdUsuario = rol.IdUsuario;
+            existente.FechaCreacion = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<bool> EliminarAsync(int id)
@@ -46,14 +60,6 @@ namespace SigesaData.Implementacion
             _context.Roles.Remove(rol);
             await _context.SaveChangesAsync();
             return true;
-        }
-
-        public async Task<IEnumerable<Rol>> ObtenerPorUsuarioAsync(int idUsuario)
-        {
-            return await _context.Roles
-                .Include(r => r.RolUsuario)
-                .Where(r => r.IdUsuario == idUsuario)
-                .ToListAsync();
         }
     }
 }

@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SigesaData.Migrations
 {
     /// <inheritdoc />
@@ -264,6 +266,16 @@ namespace SigesaData.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "RolUsuario",
+                columns: new[] { "IdRolUsuario", "FechaCreacion", "Nombre" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 6, 17, 5, 17, 5, 364, DateTimeKind.Local).AddTicks(6688), "Administrador" },
+                    { 2, new DateTime(2025, 6, 17, 5, 17, 5, 364, DateTimeKind.Local).AddTicks(6707), "Coordinador" },
+                    { 3, new DateTime(2025, 6, 17, 5, 17, 5, 364, DateTimeKind.Local).AddTicks(6709), "Usuario" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Bitacora_IdUsuario",
                 table: "Bitacora",
@@ -315,9 +327,10 @@ namespace SigesaData.Migrations
                 column: "IdRolUsuario");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rol_IdUsuario",
+                name: "IX_Rol_IdUsuario_IdRolUsuario",
                 table: "Rol",
-                column: "IdUsuario");
+                columns: new[] { "IdUsuario", "IdRolUsuario" },
+                unique: true);
         }
 
         /// <inheritdoc />

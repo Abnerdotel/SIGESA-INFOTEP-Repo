@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using SigesaData.Contrato;
 using SigesaEntidades;
-using SigesaWeb.Models.DTOs;
-using System.Security.Claims;
 using SigesaWeb.Models.DTOS;
+using SigesaWeb.Models.DTOs;
+using SigesaData.Utilidades;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SigesaWeb.Controllers
 {
@@ -20,20 +22,28 @@ namespace SigesaWeb.Controllers
             _rolRepositorio = rolRepositorio;
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
-            ClaimsPrincipal claimuser = HttpContext.User;
-            if (claimuser.Identity!.IsAuthenticated)
+            // Si el usuario ya está autenticado, redirigir a su home según rol
+            if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                string rol = claimuser.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "";
-                if (rol == "Administrador") return RedirectToAction("Index", "Home");
-                if (rol == "Usuario") return RedirectToAction("Index", "Cursos");
-                if (rol == "Coordinador") return RedirectToAction("Index", "Home");
+                string rol = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "";
+                return rol switch
+                {
+                    "Administrador" => RedirectToAction("Index", "Home"),
+                    "Usuario" => RedirectToAction("Index", "Home"),
+                    "Coordinador" => RedirectToAction("Index", "Home"),
+                    _ => RedirectToAction("Login")
+                };
             }
+
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(VMUsuarioLogin modelo)
         {
             if (string.IsNullOrWhiteSpace(modelo.DocumentoIdentidad) || string.IsNullOrWhiteSpace(modelo.Clave))
@@ -42,7 +52,7 @@ namespace SigesaWeb.Controllers
                 return View();
             }
 
-            Usuario? usuario = await _usuarioRepositorio.AutenticarAsync(modelo.DocumentoIdentidad, modelo.Clave);
+            var usuario = await _usuarioRepositorio.AutenticarAsync(modelo.DocumentoIdentidad, modelo.Clave);
 
             if (usuario == null)
             {
@@ -50,40 +60,49 @@ namespace SigesaWeb.Controllers
                 return View();
             }
 
-            string rol = usuario.Roles.FirstOrDefault()?.RolUsuario?.Nombre ?? "Usuario";
+            var rolAsignado = usuario.Roles
+                .Select(r => r.RolUsuario?.Nombre)
+                .FirstOrDefault() ?? "Usuario";
 
-            List<Claim> claims = new()
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, $"{usuario.Nombre} {usuario.Apellido}"),
                 new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()),
-                new Claim(ClaimTypes.Role, rol)
+                new Claim(ClaimTypes.Role, rolAsignado)
             };
 
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             var authProperties = new AuthenticationProperties
             {
-                AllowRefresh = true
+                AllowRefresh = true,
+                IsPersistent = true // Mantener sesión activa
             };
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity), authProperties);
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(identity),
+                authProperties
+            );
 
-            return rol switch
+            return rolAsignado switch
             {
                 "Administrador" => RedirectToAction("Index", "Home"),
-                "Usuario" => RedirectToAction("Index", "Cursos"),
+                "Usuario" => RedirectToAction("Index", "Home"),
                 "Coordinador" => RedirectToAction("Index", "Home"),
                 _ => RedirectToAction("Login")
             };
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public IActionResult Registrarse()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Registrarse(VMUsuario modelo)
         {
             if (modelo.Clave != modelo.ConfirmarClave)
@@ -92,38 +111,52 @@ namespace SigesaWeb.Controllers
                 return View();
             }
 
-            Usuario nuevoUsuario = new()
+            try
             {
-                NumeroDocumentoIdentidad = modelo.DocumentoIdentidad,
-                Nombre = modelo.Nombre,
-                Apellido = modelo.Apellido,
-                Correo = modelo.Correo,
-                Clave = modelo.Clave,
-                FechaCreacion = DateTime.Now
-            };
-
-            int idGenerado = await _usuarioRepositorio.GuardarAsync(nuevoUsuario);
-
-            if (idGenerado > 0)
-            {
-                Rol nuevoRol = new()
+                var nuevoUsuario = new Usuario
                 {
-                    IdUsuario = idGenerado,
-                    IdRolUsuario = 3, // Usuario normal
-                    FechaCreacion = DateTime.Now
+                    NumeroDocumentoIdentidad = modelo.DocumentoIdentidad,
+                    Nombre = modelo.Nombre,
+                    Apellido = modelo.Apellido,
+                    Correo = modelo.Correo,
+                    Clave = modelo.Clave,
+                    EstaActivo = true,
+                    FechaCreacion = DateTime.Now,
+                    Roles = new List<Rol>
+                    {
+                        new Rol
+                        {
+                            IdRolUsuario = 3, // Usuario por defecto
+                            FechaCreacion = DateTime.Now
+                        }
+                    }
                 };
 
-                await _rolRepositorio.GuardarAsync(nuevoRol);
+                int idGenerado = await _usuarioRepositorio.GuardarAsync(nuevoUsuario);
 
-                ViewBag.Creado = true;
-                ViewBag.Mensaje = "Cuenta creada correctamente.";
+                if (idGenerado > 0)
+                {
+                    ViewBag.Creado = true;
+                    ViewBag.Mensaje = "Cuenta creada correctamente.";
+                    return View();
+                }
+
+                ViewBag.Mensaje = "No se pudo registrar el usuario.";
                 return View();
             }
-
-            ViewBag.Mensaje = "No se pudo registrar el usuario.";
-            return View();
+            catch (InvalidOperationException ex)
+            {
+                ViewBag.Mensaje = ex.Message;
+                return View();
+            }
+            catch
+            {
+                ViewBag.Mensaje = "Error inesperado al registrar el usuario.";
+                return View();
+            }
         }
 
+        [Authorize]
         public IActionResult Denegado()
         {
             return View();

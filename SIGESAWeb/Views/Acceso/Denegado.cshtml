@@ -39,10 +39,10 @@
                                     </a>
                                 }
 
-                                else if (User.IsInRole("Estudiante"))
+                                else if (User.IsInRole("Usuario"))
 
                                 {
-                                    <a asp-controller="Aulas" asp-action="Index" class="btn btn-primary mt-3">
+                                    <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">
                                         <i class="fas fa-arrow-left me-1"></i>
                                         Regresar a Aulas
                                     </a>
@@ -51,7 +51,7 @@
                                 else if (User.IsInRole("Coordinador"))
 
                                 {
-                                    <a asp-controller="Citas" asp-action="CitasAsignadas" class="btn btn-primary mt-3">
+                                    <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">
                                         <i class="fas fa-arrow-left me-1"></i>
                                         Regresar a Aulas Asignadas
                                     </a>

@@ -26,6 +26,10 @@ namespace SigesaEntidades
         [Required]
         public string Clave { get; set; } = null!;
 
+        [Required]
+
+        public bool EstaActivo { get; set; } = true;
+
         public DateTime FechaCreacion { get; set; }
 
         // Relacion muchos a muchos a travas de Rol

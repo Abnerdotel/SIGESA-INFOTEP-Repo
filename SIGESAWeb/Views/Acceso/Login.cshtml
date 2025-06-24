@@ -1,24 +1,18 @@
-﻿@model SigesaWeb.Models.DTOs.VMUsuarioLogin;
-
+﻿@model SigesaWeb.Models.DTOs.VMUsuarioLogin
 @{
     Layout = null;
 }
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Login - SIGESA Web</title>
+    <title>Iniciar Sesión - SIGESA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="~/css/styles.css" rel="stylesheet" />
     <script src="~/lib/fontawesome/all.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
-
 <body class="bg-gradient-primary">
 
     <div id="layoutAuthentication">
@@ -28,41 +22,32 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-5">
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header text-center">
-                                    <h3 class="font-weight-light my-4">Iniciar sesión</h3>
-                                </div>
+                                <div class="card-header text-center"><h3 class="font-weight-light">Iniciar Sesión</h3></div>
                                 <div class="card-body">
-
                                     <form asp-controller="Acceso" asp-action="Login" method="post">
-                                        <!-- Documento -->
                                         <div class="form-floating mb-3">
-                                            <input class="form-control" type="text" placeholder="Número de Documento" asp-for="DocumentoIdentidad" required />
-                                            <label for="DocumentoIdentidad">Número de Documento</label>
+                                            <input asp-for="DocumentoIdentidad" class="form-control" />
+                                            <label asp-for="DocumentoIdentidad">Nro. Documento</label>
+                                            <span asp-validation-for="DocumentoIdentidad" class="text-danger"></span>
                                         </div>
-                                        <!-- Contraseña -->
                                         <div class="form-floating mb-3">
-                                            <input class="form-control" type="password" placeholder="Contraseña" asp-for="Clave" required />
-                                            <label for="Clave">Contraseña</label>
+                                            <input asp-for="Clave" type="password" class="form-control" />
+                                            <label asp-for="Clave">Contraseña</label>
+                                            <span asp-validation-for="Clave" class="text-danger"></span>
                                         </div>
-
-                                        <!-- Error Message -->
                                         @if (ViewData["Mensaje"] != null)
-
                                         {
-                                            <div class="alert alert-danger" role="alert">
-                                                @ViewData["Mensaje"]
-                                            </div>
+                                            <div class="alert alert-danger">@ViewData["Mensaje"]</div>
                                         }
-
-                                        <!-- Submit Button -->
-                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                            <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+                                        <div class="d-grid">
+                                            <button class="btn btn-primary" type="submit">Acceder</button>
                                         </div>
                                     </form>
-
                                 </div>
                                 <div class="card-footer text-center py-3">
-                                    <div class="small"><a asp-controller="Acceso" asp-action="Registrarse">¿No tienes una cuenta? ¡Regístrate!</a></div>
+                                    <div class="small">
+                                        <a asp-controller="Acceso" asp-action="Registrarse">¿No tienes cuenta? Regístrate</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -73,19 +58,12 @@
         <div id="layoutAuthentication_footer">
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Abner Dotel 2023-0183</div>
-                    </div>
+                    <div class="text-muted text-center">Abner Dotel 2023-0183</div>
                 </div>
             </footer>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/scripts.js"></script>
 </body>
-
 </html>
-
-

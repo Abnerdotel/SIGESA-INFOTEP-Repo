@@ -1,70 +1,133 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// Implementación de IBitacoraRepositorio con Entity Framework Core
+
+using Microsoft.EntityFrameworkCore;
 using SigesaData.Context;
 using SigesaData.Context.SigesaData.Context;
 using SigesaData.Contrato;
+using SigesaData.Utilidades;
 using SigesaEntidades;
-using System.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace SigesaData.Implementacion.DB
+public class UsuarioRepositorio : IUsuarioRepositorio
 {
-    public class UsuarioRepositorio : IUsuarioRepositorio
+    private readonly SigesaDbContext _context;
+
+    public UsuarioRepositorio(SigesaDbContext context)
     {
-        private readonly SigesaDbContext _context;
+        _context = context;
+    }
 
-        public UsuarioRepositorio(SigesaDbContext context)
+    public async Task<IEnumerable<Usuario>> ObtenerListaAsync(int idRolUsuario = 0)
+    {
+        var query = _context.Usuarios
+            .AsNoTracking()
+            .Include(u => u.Roles)
+                .ThenInclude(r => r.RolUsuario)
+            .AsQueryable();
+
+        if (idRolUsuario > 0)
         {
-            _context = context;
+            query = query.Where(u => u.Roles.Any(r => r.IdRolUsuario == idRolUsuario));
         }
 
-        public async Task<IEnumerable<Usuario>> ObtenerListaAsync(int idRolUsuario = 0)
-        {
-            var query = _context.Usuarios
-                .Include(u => u.Roles)
-                .ThenInclude(r => r.RolUsuario)
-                .AsQueryable();
+        return await query.ToListAsync();
+    }
 
-            if (idRolUsuario > 0)
+    public async Task<Usuario?> AutenticarAsync(string documentoIdentidad, string clave)
+    {
+        var usuario = await _context.Usuarios
+            .Include(u => u.Roles)
+                .ThenInclude(r => r.RolUsuario)
+            .FirstOrDefaultAsync(u => u.NumeroDocumentoIdentidad == documentoIdentidad && u.EstaActivo);
+
+        if (usuario == null) return null;
+
+        return Encriptador.VerificarClave(clave, usuario.Clave) ? usuario : null;
+    }
+
+    public async Task<int> GuardarAsync(Usuario usuario)
+    {
+        // Validación única de documento
+        bool existeDocumento = await _context.Usuarios.AnyAsync(u => u.NumeroDocumentoIdentidad == usuario.NumeroDocumentoIdentidad);
+        if (existeDocumento)
+            throw new InvalidOperationException("Ya existe un usuario con el mismo número de documento.");
+
+        usuario.Clave = Encriptador.HashearClave(usuario.Clave);
+        usuario.FechaCreacion = DateTime.Now;
+        usuario.EstaActivo = true;
+
+        var rolesParaAsignar = usuario.Roles.ToList();
+        usuario.Roles = new List<Rol>();
+
+        _context.Usuarios.Add(usuario);
+        await _context.SaveChangesAsync();
+
+        foreach (var rol in rolesParaAsignar)
+        {
+            rol.IdUsuario = usuario.IdUsuario;
+            rol.FechaCreacion = DateTime.Now;
+            _context.Roles.Add(rol);
+        }
+
+        await _context.SaveChangesAsync();
+        return usuario.IdUsuario;
+    }
+
+    public async Task<bool> EditarAsync(Usuario usuario)
+    {
+        var existente = await _context.Usuarios
+            .Include(u => u.Roles)
+            .FirstOrDefaultAsync(u => u.IdUsuario == usuario.IdUsuario);
+
+        if (existente == null) return false;
+
+        existente.NumeroDocumentoIdentidad = usuario.NumeroDocumentoIdentidad;
+        existente.Nombre = usuario.Nombre;
+        existente.Apellido = usuario.Apellido;
+        existente.Correo = usuario.Correo;
+
+        if (!string.IsNullOrWhiteSpace(usuario.Clave))
+        {
+            existente.Clave = Encriptador.HashearClave(usuario.Clave);
+        }
+
+        if (usuario.Roles.Any())
+        {
+            var nuevoRolId = usuario.Roles.First().IdRolUsuario;
+            var rolActual = existente.Roles.FirstOrDefault();
+
+            if (rolActual == null)
             {
-                query = query.Where(u => u.Roles.Any(r => r.IdRolUsuario == idRolUsuario));
+                existente.Roles.Add(new Rol
+                {
+                    IdUsuario = existente.IdUsuario,
+                    IdRolUsuario = nuevoRolId,
+                    FechaCreacion = DateTime.Now
+                });
             }
-
-            return await query.ToListAsync();
+            else if (rolActual.IdRolUsuario != nuevoRolId)
+            {
+                rolActual.IdRolUsuario = nuevoRolId;
+                rolActual.FechaCreacion = DateTime.Now;
+            }
         }
 
-        public async Task<Usuario?> AutenticarAsync(string documentoIdentidad, string clave)
-        {
-            return await _context.Usuarios
-                .Include(u => u.Roles)
-                .ThenInclude(r => r.RolUsuario)
-                .FirstOrDefaultAsync(u => u.NumeroDocumentoIdentidad == documentoIdentidad && u.Clave == clave);
-        }
+        await _context.SaveChangesAsync();
+        return true;
+    }
 
-        public async Task<int> GuardarAsync(Usuario usuario)
-        {
-            _context.Usuarios.Add(usuario);
-            await _context.SaveChangesAsync();
-            return usuario.IdUsuario;
-        }
+    public async Task<bool> EliminarAsync(int id)
+    {
+        var usuario = await _context.Usuarios.FindAsync(id);
+        if (usuario == null) return false;
 
-        public async Task<bool> EditarAsync(Usuario usuario)
-        {
-            var existente = await _context.Usuarios.FindAsync(usuario.IdUsuario);
-            if (existente == null) return false;
+        usuario.EstaActivo = false;
+        _context.Usuarios.Update(usuario);
+        await _context.SaveChangesAsync();
 
-            _context.Entry(existente).CurrentValues.SetValues(usuario);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<bool> EliminarAsync(int id)
-        {
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario == null) return false;
-
-            _context.Usuarios.Remove(usuario);
-            await _context.SaveChangesAsync();
-            return true;
-        }
+        return true;
     }
 }
-

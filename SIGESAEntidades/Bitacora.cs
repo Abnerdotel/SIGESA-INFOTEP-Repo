@@ -16,7 +16,7 @@ namespace SigesaEntidades
         public string Detalle { get; set; } = null!;     
         public DateTime FechaAccion { get; set; }
 
-        // Relación con Usuario
+        // Relacion con Usuario
 
         public int IdUsuario { get; set; }
         [ForeignKey("IdUsuario")]

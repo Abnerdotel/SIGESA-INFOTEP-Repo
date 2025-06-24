@@ -2,53 +2,82 @@
 using Microsoft.AspNetCore.Mvc;
 using SigesaData.Contrato;
 using SigesaEntidades;
+using SigesaWeb.Models.DTOs;
 
 namespace SigesaWeb.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class UsuarioController : Controller
     {
         private readonly IUsuarioRepositorio _repositorio;
+
         public UsuarioController(IUsuarioRepositorio repositorio)
         {
             _repositorio = repositorio;
         }
 
-        [Authorize(Roles = "Administrador")]
         public IActionResult Index()
         {
             return View();
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Lista()
-        //{
-        //    // List<Usuario> lista = await _repositorio.ObtenerListaAsync();
+        [HttpGet]
+        public async Task<IActionResult> Lista()
+        {
+            var usuarios = await _repositorio.ObtenerListaAsync();
 
-        //    List<Usuario> lista = await _repositorio.ObtenerListaAsync();
+            var resultado = usuarios.Select(u => new
+            {
+                idUsuario = u.IdUsuario,
+                numeroDocumentoIdentidad = u.NumeroDocumentoIdentidad,
+                nombre = u.Nombre,
+                apellido = u.Apellido,
+                correo = u.Correo,
+                fechaCreacion = u.FechaCreacion.ToString("dd/MM/yyyy"),
+                estaActivo = u.EstaActivo,
+                rol = u.Roles.FirstOrDefault()?.RolUsuario?.Nombre ?? "Sin Rol",
+                idRolUsuario = u.Roles.FirstOrDefault()?.IdRolUsuario ?? 3
+            });
 
-        //    return StatusCode(StatusCodes.Status200OK, new { data = lista });
-        //}
+            return Json(new { data = resultado });
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Guardar([FromBody] Usuario objeto)
-        //{
-        //    string respuesta = await _repositorio.GuardarAsync(objeto);
-        //    return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Guardar([FromBody] Usuario objeto)
+        {
+            int respuesta = await _repositorio.GuardarAsync(objeto);
+            return Ok(new { data = respuesta });
+        }
 
-        //[HttpPut]
-        //public async Task<IActionResult> Editar([FromBody] Usuario objeto)
-        //{
-        //    //string respuesta = await _repositorio.Editar(objeto);
-        //    string respuesta = await _repositorio.EditarAsync(objeto);
-        //    return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
-        //}
+        [HttpPut]
+        public async Task<IActionResult> Editar([FromBody] UsuarioEditDTO dto)
+        {
+            var usuario = new Usuario
+            {
+                IdUsuario = dto.IdUsuario,
+                NumeroDocumentoIdentidad = dto.NumeroDocumentoIdentidad,
+                Nombre = dto.Nombre,
+                Apellido = dto.Apellido,
+                Correo = dto.Correo,
+                Clave = dto.Clave ?? "",
+                Roles = new List<Rol>
+        {
+            new Rol
+            {
+                IdRolUsuario = dto.IdRolUsuario
+            }
+        }
+            };
 
-        //[HttpDelete]
-        //public async Task<ActionResult> Eliminar(int Id)
-        //{
-        //    int respuesta = await _repositorio.EliminarAsync(Id);
-        //    return StatusCode(StatusCodes.Status200OK, new { data = respuesta });
-        //}
+            bool actualizado = await _repositorio.EditarAsync(usuario);
+            return Ok(new { data = actualizado });
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            bool respuesta = await _repositorio.EliminarAsync(id);
+            return Ok(new { data = respuesta });
+        }
     }
 }

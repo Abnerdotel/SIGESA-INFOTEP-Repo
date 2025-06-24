@@ -1,13 +1,30 @@
 ﻿namespace SigesaWeb.Models.DTOS
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class VMUsuario
     {
-        public string DocumentoIdentidad { get; set; } = null!;
-        public string Nombre { get; set; } = null!;
-        public string Apellido { get; set; } = null!;
-        public string Correo { get; set; } = null!;
-        public string Clave { get; set; } = null!;
-        public string ConfirmarClave { get; set; } = null!;
+        [Required]
+        public string DocumentoIdentidad { get; set; } = string.Empty;
 
+        [Required]
+        public string Nombre { get; set; } = string.Empty;
+
+        [Required]
+        public string Apellido { get; set; } = string.Empty;
+
+        [Required]
+        [EmailAddress]
+        public string Correo { get; set; } = string.Empty;
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Clave { get; set; } = string.Empty;
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare(nameof(Clave), ErrorMessage = "Las contraseñas no coinciden.")]
+        public string ConfirmarClave { get; set; } = string.Empty;
     }
+
 }

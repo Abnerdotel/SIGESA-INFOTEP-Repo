@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SigesaData.Context.SigesaData.Context;
 
@@ -11,9 +12,11 @@ using SigesaData.Context.SigesaData.Context;
 namespace SigesaData.Migrations
 {
     [DbContext(typeof(SigesaDbContext))]
-    partial class SigesaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250617091705_InitDb")]
+    partial class InitDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,26 +157,6 @@ namespace SigesaData.Migrations
                     b.HasKey("IdEstado");
 
                     b.ToTable("EstadoReserva", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            IdEstado = 1,
-                            FechaCreacion = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "Pendiente"
-                        },
-                        new
-                        {
-                            IdEstado = 2,
-                            FechaCreacion = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "Aprobada"
-                        },
-                        new
-                        {
-                            IdEstado = 3,
-                            FechaCreacion = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "Cancelada"
-                        });
                 });
 
             modelBuilder.Entity("SigesaEntidades.Notificacion", b =>
@@ -293,19 +276,19 @@ namespace SigesaData.Migrations
                         new
                         {
                             IdRolUsuario = 1,
-                            FechaCreacion = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaCreacion = new DateTime(2025, 6, 17, 5, 17, 5, 364, DateTimeKind.Local).AddTicks(6688),
                             Nombre = "Administrador"
                         },
                         new
                         {
                             IdRolUsuario = 2,
-                            FechaCreacion = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaCreacion = new DateTime(2025, 6, 17, 5, 17, 5, 364, DateTimeKind.Local).AddTicks(6707),
                             Nombre = "Coordinador"
                         },
                         new
                         {
                             IdRolUsuario = 3,
-                            FechaCreacion = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaCreacion = new DateTime(2025, 6, 17, 5, 17, 5, 364, DateTimeKind.Local).AddTicks(6709),
                             Nombre = "Usuario"
                         });
                 });
@@ -328,26 +311,6 @@ namespace SigesaData.Migrations
                     b.HasKey("IdTipoEspacio");
 
                     b.ToTable("TipoEspacio", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            IdTipoEspacio = 1,
-                            FechaCreacion = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "Aula"
-                        },
-                        new
-                        {
-                            IdTipoEspacio = 2,
-                            FechaCreacion = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "Sala de Reunión"
-                        },
-                        new
-                        {
-                            IdTipoEspacio = 3,
-                            FechaCreacion = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "Laboratorio"
-                        });
                 });
 
             modelBuilder.Entity("SigesaEntidades.TipoNotificacion", b =>
@@ -368,26 +331,6 @@ namespace SigesaData.Migrations
                     b.HasKey("IdTipoNotificacion");
 
                     b.ToTable("TipoNotificacion", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            IdTipoNotificacion = 1,
-                            FechaCreacion = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "Confirmación de reserva"
-                        },
-                        new
-                        {
-                            IdTipoNotificacion = 2,
-                            FechaCreacion = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "Rechazo de reserva"
-                        },
-                        new
-                        {
-                            IdTipoNotificacion = 3,
-                            FechaCreacion = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "Recordatorio"
-                        });
                 });
 
             modelBuilder.Entity("SigesaEntidades.Usuario", b =>
@@ -409,9 +352,6 @@ namespace SigesaData.Migrations
                     b.Property<string>("Correo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EstaActivo")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");

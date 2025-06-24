@@ -1,11 +1,12 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+using SigesaWeb.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SIGESA.Models;
 using System.Diagnostics;
 
-namespace SIGESA.Controllers
+namespace SigesaWeb.Controllers
 {
     public class HomeController : Controller
     {
@@ -16,29 +17,43 @@ namespace SIGESA.Controllers
             _logger = logger;
         }
 
-
-        [Authorize(Roles = "Administrador")]
-
+        // Redirige a Login si el usuario no está autenticado
+        [Authorize(Roles = "Administrador, Usuario")]
         public IActionResult Index()
+        {
+            if (!User.Identity?.IsAuthenticated ?? true)
+            {
+                return RedirectToAction("Login", "Acceso");
+            }
+
+            return View();
+        }
+
+        [Authorize(Roles = "Administrador, Usuario")]
+        public IActionResult Privacy()
         {
             return View();
         }
 
-        [Authorize(Roles = "Administrador")]
-        public IActionResult Privacy()
+        // Página de acceso denegado
+        [AllowAnonymous]
+        public IActionResult Denegado()
         {
-            return View();
+            return View(); // Vista personalizada en Views/Home/Denegado.cshtml
+        }
+
+        // Cierre de sesión
+        [Authorize]
+        public async Task<IActionResult> Salir()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Acceso");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-        public async Task<IActionResult> Salir()
-        {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Acceso");
         }
     }
 }
