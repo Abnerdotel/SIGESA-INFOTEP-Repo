@@ -1,5 +1,7 @@
-﻿namespace SigesaWeb.Models.DTOs
-{
+﻿
+   
+    namespace SigesaWeb.Models.DTOs
+    {
     public class UsuarioEditDTO
     {
         public int IdUsuario { get; set; }
@@ -10,4 +12,6 @@
         public string? Clave { get; set; } 
         public int IdRolUsuario { get; set; }
     }
+
 }
+

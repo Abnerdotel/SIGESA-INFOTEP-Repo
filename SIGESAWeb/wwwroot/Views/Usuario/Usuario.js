@@ -17,21 +17,19 @@ document.addEventListener("DOMContentLoaded", function () {
             { title: "Apellidos", data: "apellido" },
             { title: "Correo", data: "correo" },
             { title: "Fecha Creación", data: "fechaCreacion" },
-            {
-                title: "Rol", data: "rol", width: "120px"
-            },
+            { title: "Rol", data: "rol", width: "120px" },
             {
                 title: "", data: "idUsuario", render: function (data) {
                     return `
-                    <div class="btn-group dropstart">
-                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
-                            Acción
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><button class="dropdown-item btn-editar">Editar</button></li>
-                            <li><button class="dropdown-item btn-eliminar">Desactivar</button></li>
-                        </ul>
-                    </div>`;
+                        <div class="btn-group dropstart">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                Acción
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><button class="dropdown-item btn-editar">Editar</button></li>
+                                <li><button class="dropdown-item btn-eliminar">Desactivar</button></li>
+                            </ul>
+                        </div>`;
                 }
             }
         ],
@@ -41,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// NUEVO USUARIO
 $("#btnNuevo").on("click", function () {
     idEditar = 0;
     $("#txtNroDocumento").val("");
@@ -52,6 +51,7 @@ $("#btnNuevo").on("click", function () {
     $("#mdData").modal("show");
 });
 
+// EDITAR USUARIO
 $("#tbData tbody").on("click", ".btn-editar", function () {
     const fila = $(this).closest("tr");
     const data = tablaData.row(fila).data();
@@ -62,11 +62,12 @@ $("#tbData tbody").on("click", ".btn-editar", function () {
     $("#txtApellidos").val(data.apellido);
     $("#txtCorreo").val(data.correo);
     $("#txtClave").val("");
-    $("#selectRol").val(data.idRolUsuario || "3");
+    $("#selectRol").val(data.idRolUsuario.toString());
 
     $("#mdData").modal("show");
 });
 
+// DESACTIVAR USUARIO
 $("#tbData tbody").on("click", ".btn-eliminar", function () {
     const fila = $(this).closest("tr");
     const data = tablaData.row(fila).data();
@@ -94,7 +95,8 @@ $("#tbData tbody").on("click", ".btn-eliminar", function () {
     });
 });
 
-$("#btnGuardar").on("click", function () {
+// GUARDAR USUARIO (NUEVO O EDITADO)
+$(document).on("click", "#btnGuardar", function () {
     if (
         $("#txtNroDocumento").val().trim() === "" ||
         $("#txtNombres").val().trim() === "" ||
@@ -123,7 +125,8 @@ $("#btnGuardar").on("click", function () {
         method: metodo,
         headers: { "Content-Type": "application/json;charset=utf-8" },
         body: JSON.stringify(objeto)
-    }).then(res => res.json())
+    })
+        .then(res => res.json())
         .then(res => {
             if (res.data) {
                 Swal.fire("Éxito", "Usuario guardado correctamente.", "success");
@@ -133,5 +136,9 @@ $("#btnGuardar").on("click", function () {
             } else {
                 Swal.fire("Error", "No se pudo guardar.", "error");
             }
+        })
+        .catch(err => {
+            console.error("Error en la petición:", err);
+            Swal.fire("Error", "Ocurrió un error inesperado.", "error");
         });
 });

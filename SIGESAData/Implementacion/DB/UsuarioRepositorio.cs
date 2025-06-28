@@ -50,7 +50,6 @@ public class UsuarioRepositorio : IUsuarioRepositorio
 
     public async Task<int> GuardarAsync(Usuario usuario)
     {
-        // Validación única de documento
         bool existeDocumento = await _context.Usuarios.AnyAsync(u => u.NumeroDocumentoIdentidad == usuario.NumeroDocumentoIdentidad);
         if (existeDocumento)
             throw new InvalidOperationException("Ya existe un usuario con el mismo número de documento.");

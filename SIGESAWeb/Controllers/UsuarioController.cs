@@ -73,6 +73,7 @@ namespace SigesaWeb.Controllers
             return Ok(new { data = actualizado });
         }
 
+
         [HttpDelete]
         public async Task<IActionResult> Eliminar(int id)
         {

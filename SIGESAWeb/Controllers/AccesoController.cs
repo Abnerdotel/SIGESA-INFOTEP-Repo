@@ -5,7 +5,6 @@ using SigesaData.Contrato;
 using SigesaEntidades;
 using SigesaWeb.Models.DTOS;
 using SigesaWeb.Models.DTOs;
-using SigesaData.Utilidades;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
@@ -26,17 +25,22 @@ namespace SigesaWeb.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
-            // Si el usuario ya está autenticado, redirigir a su home según rol
+            // Evitar mostrar el login si ya hay sesión activa
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                string rol = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "";
-                return rol switch
+                var rol = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "";
+
+                // Evita bucle si ya está en Login
+                if (ControllerContext.RouteData.Values["action"]?.ToString()?.ToLower() != "login")
                 {
-                    "Administrador" => RedirectToAction("Index", "Home"),
-                    "Usuario" => RedirectToAction("Index", "Home"),
-                    "Coordinador" => RedirectToAction("Index", "Home"),
-                    _ => RedirectToAction("Login")
-                };
+                    return rol switch
+                    {
+                        "Administrador" => RedirectToAction("Index", "Home"),
+                        "Usuario" => RedirectToAction("Index", "Home"),
+                        "Coordinador" => RedirectToAction("Index", "Home"),
+                        _ => RedirectToAction("Login")
+                    };
+                }
             }
 
             return View();
@@ -76,7 +80,7 @@ namespace SigesaWeb.Controllers
             var authProperties = new AuthenticationProperties
             {
                 AllowRefresh = true,
-                IsPersistent = true // Mantener sesión activa
+                IsPersistent = true // Mantener la sesión activa
             };
 
             await HttpContext.SignInAsync(
@@ -126,7 +130,7 @@ namespace SigesaWeb.Controllers
                     {
                         new Rol
                         {
-                            IdRolUsuario = 3, // Usuario por defecto
+                            IdRolUsuario = 3, // Usuario común por defecto
                             FechaCreacion = DateTime.Now
                         }
                     }

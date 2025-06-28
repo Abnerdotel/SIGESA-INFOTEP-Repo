@@ -18,7 +18,7 @@ namespace SigesaWeb.Controllers
         }
 
         // Redirige a Login si el usuario no está autenticado
-        [Authorize(Roles = "Administrador, Usuario")]
+        [Authorize(Roles = "Administrador, Usuario, Coordinador")]
         public IActionResult Index()
         {
             if (!User.Identity?.IsAuthenticated ?? true)
