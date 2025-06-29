@@ -50,13 +50,13 @@ namespace SigesaWeb.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(VMUsuarioLogin modelo)
         {
-            if (string.IsNullOrWhiteSpace(modelo.DocumentoIdentidad) || string.IsNullOrWhiteSpace(modelo.Clave))
+            if (string.IsNullOrWhiteSpace(modelo.Correo) || string.IsNullOrWhiteSpace(modelo.Clave))
             {
                 ViewData["Mensaje"] = "Debe ingresar todos los campos.";
                 return View();
             }
 
-            var usuario = await _usuarioRepositorio.AutenticarAsync(modelo.DocumentoIdentidad, modelo.Clave);
+            var usuario = await _usuarioRepositorio.AutenticarAsync(modelo.Correo, modelo.Clave);
 
             if (usuario == null)
             {

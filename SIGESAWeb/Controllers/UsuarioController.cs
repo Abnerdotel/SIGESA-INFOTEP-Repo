@@ -36,18 +36,45 @@ namespace SigesaWeb.Controllers
                 fechaCreacion = u.FechaCreacion.ToString("dd/MM/yyyy"),
                 estaActivo = u.EstaActivo,
                 rol = u.Roles.FirstOrDefault()?.RolUsuario?.Nombre ?? "Sin Rol",
-                idRolUsuario = u.Roles.FirstOrDefault()?.IdRolUsuario ?? 3
+                idRolUsuario = u.Roles.FirstOrDefault()?.IdRolUsuario ?? 0
             });
 
             return Json(new { data = resultado });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Guardar([FromBody] Usuario objeto)
+        public async Task<IActionResult> Guardar([FromBody] UsuarioCreateDTO dto)
         {
-            int respuesta = await _repositorio.GuardarAsync(objeto);
-            return Ok(new { data = respuesta });
+            try
+            {
+                var usuario = new Usuario
+                {
+                    NumeroDocumentoIdentidad = dto.NumeroDocumentoIdentidad,
+                    Nombre = dto.Nombre,
+                    Apellido = dto.Apellido,
+                    Correo = dto.Correo,
+                    Clave = dto.Clave,
+                    EstaActivo = true,
+                    FechaCreacion = DateTime.Now,
+                    Roles = new List<Rol>
+            {
+                new Rol { IdRolUsuario = dto.IdRolUsuario }
+            }
+                };
+
+                int id = await _repositorio.GuardarAsync(usuario);
+                return Ok(new { data = id });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { data = false, error = ex.Message });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { data = false, error = "Error inesperado al guardar el usuario." });
+            }
         }
+
 
         [HttpPut]
         public async Task<IActionResult> Editar([FromBody] UsuarioEditDTO dto)
@@ -61,24 +88,27 @@ namespace SigesaWeb.Controllers
                 Correo = dto.Correo,
                 Clave = dto.Clave ?? "",
                 Roles = new List<Rol>
-        {
-            new Rol
-            {
-                IdRolUsuario = dto.IdRolUsuario
-            }
-        }
+                {
+                    new Rol { IdRolUsuario = dto.IdRolUsuario }
+                }
             };
 
             bool actualizado = await _repositorio.EditarAsync(usuario);
             return Ok(new { data = actualizado });
         }
 
-
         [HttpDelete]
         public async Task<IActionResult> Eliminar(int id)
         {
-            bool respuesta = await _repositorio.EliminarAsync(id);
-            return Ok(new { data = respuesta });
+            bool eliminado = await _repositorio.EliminarAsync(id);
+            return Ok(new { data = eliminado });
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> CambiarEstado(int id, bool activar)
+        {
+            bool resultado = await _repositorio.CambiarEstadoAsync(id, activar);
+            return Ok(new { data = resultado });
         }
     }
 }

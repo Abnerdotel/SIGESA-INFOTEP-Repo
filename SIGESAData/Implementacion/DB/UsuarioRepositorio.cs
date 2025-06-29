@@ -36,30 +36,37 @@ public class UsuarioRepositorio : IUsuarioRepositorio
         return await query.ToListAsync();
     }
 
-    public async Task<Usuario?> AutenticarAsync(string documentoIdentidad, string clave)
+    public async Task<Usuario?> AutenticarAsync(string correo, string clave)
     {
         var usuario = await _context.Usuarios
             .Include(u => u.Roles)
                 .ThenInclude(r => r.RolUsuario)
-            .FirstOrDefaultAsync(u => u.NumeroDocumentoIdentidad == documentoIdentidad && u.EstaActivo);
+            .FirstOrDefaultAsync(u => u.Correo == correo && u.EstaActivo);
 
         if (usuario == null) return null;
 
         return Encriptador.VerificarClave(clave, usuario.Clave) ? usuario : null;
     }
 
+
     public async Task<int> GuardarAsync(Usuario usuario)
     {
-        bool existeDocumento = await _context.Usuarios.AnyAsync(u => u.NumeroDocumentoIdentidad == usuario.NumeroDocumentoIdentidad);
-        if (existeDocumento)
-            throw new InvalidOperationException("Ya existe un usuario con el mismo número de documento.");
+        bool correoExistente = await _context.Usuarios.AnyAsync(u => u.Correo == usuario.Correo);
+        if (correoExistente)
+            throw new InvalidOperationException("Ya existe un usuario con el mismo correo electrónico.");
 
         usuario.Clave = Encriptador.HashearClave(usuario.Clave);
         usuario.FechaCreacion = DateTime.Now;
         usuario.EstaActivo = true;
 
-        var rolesParaAsignar = usuario.Roles.ToList();
-        usuario.Roles = new List<Rol>();
+        // Validar que venga al menos un rol válido
+        var rolesParaAsignar = usuario.Roles?.Where(r => r.IdRolUsuario > 0).ToList();
+
+        if (rolesParaAsignar == null || !rolesParaAsignar.Any())
+            throw new InvalidOperationException("Debe asignar al menos un rol al usuario.");
+
+
+        usuario.Roles = new List<Rol>(); // Limpia para evitar EF duplicados
 
         _context.Usuarios.Add(usuario);
         await _context.SaveChangesAsync();
@@ -74,6 +81,7 @@ public class UsuarioRepositorio : IUsuarioRepositorio
         await _context.SaveChangesAsync();
         return usuario.IdUsuario;
     }
+
 
     public async Task<bool> EditarAsync(Usuario usuario)
     {
@@ -129,4 +137,19 @@ public class UsuarioRepositorio : IUsuarioRepositorio
 
         return true;
     }
+
+    public async Task<bool> CambiarEstadoAsync(int idUsuario, bool activar)
+    {
+        var usuario = await _context.Usuarios.FindAsync(idUsuario);
+        if (usuario == null) return false;
+
+        usuario.EstaActivo = activar;
+        _context.Usuarios.Update(usuario);
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+
+
+
 }

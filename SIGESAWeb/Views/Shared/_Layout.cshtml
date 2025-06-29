@@ -45,7 +45,7 @@
                         @if (User.IsInRole("Administrador"))
                         {
                             <a class="nav-link" asp-controller="Usuario" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
                                 Usuario
                             </a>
                             <a class="nav-link" asp-controller="Especialidad" asp-action="Index">
@@ -116,8 +116,12 @@
 
                     </div>
                 </div>
+
+                @{
+                    var rol = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "Sin Rol";
+                }
                 <div class="sb-sidenav-footer">
-                    <div class="small" href="#" >Logged in as:</div>
+                    <div class="small" href="#" >Logueado como: @rol</div>
                     
                 </div>
             </nav>
