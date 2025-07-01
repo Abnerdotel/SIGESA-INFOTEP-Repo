@@ -42,10 +42,8 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
-                        }
-                        @if (User.IsInRole("Administrador"))
-                        {
-                           
+                        
+  
                             <div class="sb-sidenav-menu-heading">Gestión</div>
 
                             <a class="nav-link" asp-controller="Usuario" asp-action="Index">
@@ -113,9 +111,8 @@
                 @{
                     var rol = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "Sin Rol";
                 }
-                <div class="sb-sidenav-footer">
-                    <div class="small" href="#" >Logueado como: @rol</div>
-                    
+                <div class="sb-sidenav-footer">                  
+                    <div class="small">Rol: @rol<br />Usuario: @User.Identity.Name</div>    
                 </div>
             </nav>
         </div>
