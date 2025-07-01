@@ -56,7 +56,7 @@ $("#btnNuevo").on("click", function () {
     $("#txtApellidos").val("");
     $("#txtCorreo").val("");
     $("#txtClave").val("");
-    $("#selectRol").val("3"); // Asignación por defecto
+    $("#selectRol").val("3");
     $("#mdData").modal("show");
 });
 
@@ -78,7 +78,6 @@ $("#tbData tbody").on("click", ".btn-editar", function () {
 
 // GUARDAR USUARIO
 $(document).on("click", "#btnGuardar", function () {
-    // Validación de campos obligatorios
     const nroDoc = $("#txtNroDocumento").val().trim();
     const nombres = $("#txtNombres").val().trim();
     const apellidos = $("#txtApellidos").val().trim();
@@ -99,26 +98,21 @@ $(document).on("click", "#btnGuardar", function () {
     const esNuevo = idEditar === 0;
     const objeto = esNuevo
         ? {
-            IdUsuario: idEditar,
-            NumeroDocumentoIdentidad: nroDoc,
-            Nombre: nombres,
-            Apellido: apellidos,
-            Correo: correo,
-            Clave: clave,
-            Roles: [
-                {
-                    IdRolUsuario: idRol
-                }
-            ]
+            numeroDocumentoIdentidad: nroDoc,
+            nombre: nombres,
+            apellido: apellidos,
+            correo: correo,
+            clave: clave,
+            idRolUsuario: idRol
         }
         : {
-            IdUsuario: idEditar,
-            NumeroDocumentoIdentidad: nroDoc,
-            Nombre: nombres,
-            Apellido: apellidos,
-            Correo: correo,
-            Clave: clave,
-            IdRolUsuario: idRol
+            idUsuario: idEditar,
+            numeroDocumentoIdentidad: nroDoc,
+            nombre: nombres,
+            apellido: apellidos,
+            correo: correo,
+            clave: clave,
+            idRolUsuario: idRol
         };
 
     const metodo = esNuevo ? "POST" : "PUT";
@@ -129,7 +123,10 @@ $(document).on("click", "#btnGuardar", function () {
         headers: { "Content-Type": "application/json;charset=utf-8" },
         body: JSON.stringify(objeto)
     })
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) return res.json().then(err => Promise.reject(err));
+            return res.json();
+        })
         .then(res => {
             if (res.data) {
                 Swal.fire("Éxito", "Usuario guardado correctamente.", "success");
@@ -137,15 +134,14 @@ $(document).on("click", "#btnGuardar", function () {
                 tablaData.ajax.reload();
                 idEditar = 0;
             } else {
-                Swal.fire("Error", "No se pudo guardar.", "error");
+                Swal.fire("Error", res.error || "No se pudo guardar.", "error");
             }
         })
         .catch(err => {
             console.error("Error en la petición:", err);
-            Swal.fire("Error", "Ocurrió un error inesperado.", "error");
+            Swal.fire("Error", err.error || "Ocurrió un error inesperado.", "error");
         });
 });
-
 
 // ACTIVAR USUARIO
 $("#tbData tbody").on("click", ".btn-activar", function () {

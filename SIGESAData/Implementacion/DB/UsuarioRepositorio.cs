@@ -1,6 +1,4 @@
-﻿// Implementación de IBitacoraRepositorio con Entity Framework Core
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SigesaData.Context;
 using SigesaData.Context.SigesaData.Context;
 using SigesaData.Contrato;
@@ -48,9 +46,14 @@ public class UsuarioRepositorio : IUsuarioRepositorio
         return Encriptador.VerificarClave(clave, usuario.Clave) ? usuario : null;
     }
 
-
     public async Task<int> GuardarAsync(Usuario usuario)
     {
+        if (usuario == null)
+            throw new InvalidOperationException("El objeto usuario no puede ser nulo.");
+
+        if (string.IsNullOrWhiteSpace(usuario.Correo) || string.IsNullOrWhiteSpace(usuario.Clave))
+            throw new InvalidOperationException("Correo y contraseña son obligatorios.");
+
         bool correoExistente = await _context.Usuarios.AnyAsync(u => u.Correo == usuario.Correo);
         if (correoExistente)
             throw new InvalidOperationException("Ya existe un usuario con el mismo correo electrónico.");
@@ -59,17 +62,14 @@ public class UsuarioRepositorio : IUsuarioRepositorio
         usuario.FechaCreacion = DateTime.Now;
         usuario.EstaActivo = true;
 
-        // Validar que venga al menos un rol válido
         var rolesParaAsignar = usuario.Roles?.Where(r => r.IdRolUsuario > 0).ToList();
-
         if (rolesParaAsignar == null || !rolesParaAsignar.Any())
-            throw new InvalidOperationException("Debe asignar al menos un rol al usuario.");
+            throw new InvalidOperationException("Debe asignar al menos un rol válido al usuario.");
 
-
-        usuario.Roles = new List<Rol>(); // Limpia para evitar EF duplicados
+        usuario.Roles = new List<Rol>(); // Limpia para evitar errores de tracking
 
         _context.Usuarios.Add(usuario);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(); // Guarda para obtener IdUsuario
 
         foreach (var rol in rolesParaAsignar)
         {
@@ -81,7 +81,6 @@ public class UsuarioRepositorio : IUsuarioRepositorio
         await _context.SaveChangesAsync();
         return usuario.IdUsuario;
     }
-
 
     public async Task<bool> EditarAsync(Usuario usuario)
     {
@@ -101,7 +100,7 @@ public class UsuarioRepositorio : IUsuarioRepositorio
             existente.Clave = Encriptador.HashearClave(usuario.Clave);
         }
 
-        if (usuario.Roles.Any())
+        if (usuario.Roles != null && usuario.Roles.Any())
         {
             var nuevoRolId = usuario.Roles.First().IdRolUsuario;
             var rolActual = existente.Roles.FirstOrDefault();
@@ -149,7 +148,4 @@ public class UsuarioRepositorio : IUsuarioRepositorio
 
         return true;
     }
-
-
-
 }

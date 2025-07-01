@@ -2,11 +2,11 @@
 {
     public class UsuarioCreateDTO
     {
-        public string NumeroDocumentoIdentidad { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string Correo { get; set; }
-        public string Clave { get; set; }
+        public string NumeroDocumentoIdentidad { get; set; } = string.Empty;
+        public string Nombre { get; set; } = string.Empty;
+        public string Apellido { get; set; } = string.Empty;
+        public string Correo { get; set; } = string.Empty;
+        public string Clave { get; set; } = string.Empty;
         public int IdRolUsuario { get; set; }
     }
 

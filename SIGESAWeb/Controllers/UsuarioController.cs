@@ -47,6 +47,11 @@ namespace SigesaWeb.Controllers
         {
             try
             {
+                if (dto == null || string.IsNullOrWhiteSpace(dto.Correo) || string.IsNullOrWhiteSpace(dto.Clave) || dto.IdRolUsuario <= 0)
+                {
+                    return BadRequest(new { data = false, error = "Datos inválidos. Verifica todos los campos obligatorios." });
+                }
+
                 var usuario = new Usuario
                 {
                     NumeroDocumentoIdentidad = dto.NumeroDocumentoIdentidad,
@@ -57,28 +62,40 @@ namespace SigesaWeb.Controllers
                     EstaActivo = true,
                     FechaCreacion = DateTime.Now,
                     Roles = new List<Rol>
-            {
-                new Rol { IdRolUsuario = dto.IdRolUsuario }
-            }
+                    {
+                        new Rol { IdRolUsuario = dto.IdRolUsuario }
+                    }
                 };
 
                 int id = await _repositorio.GuardarAsync(usuario);
-                return Ok(new { data = id });
+
+                if (id > 0)
+                {
+                    return Ok(new { data = id });
+                }
+                else
+                {
+                    return StatusCode(500, new { data = false, error = "Error inesperado: El usuario no fue guardado." });
+                }
             }
             catch (InvalidOperationException ex)
             {
                 return BadRequest(new { data = false, error = ex.Message });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, new { data = false, error = "Error inesperado al guardar el usuario." });
+                return StatusCode(500, new { data = false, error = $"Error inesperado: {ex.Message}" });
             }
         }
-
 
         [HttpPut]
         public async Task<IActionResult> Editar([FromBody] UsuarioEditDTO dto)
         {
+            if (dto == null || dto.IdUsuario <= 0 || string.IsNullOrWhiteSpace(dto.Correo))
+            {
+                return BadRequest(new { data = false, error = "Datos inválidos para edición." });
+            }
+
             var usuario = new Usuario
             {
                 IdUsuario = dto.IdUsuario,
