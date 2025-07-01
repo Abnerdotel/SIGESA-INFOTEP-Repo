@@ -33,6 +33,9 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
+
+                        @* ADMINISTRADOR *@
+
                         @if (User.IsInRole("Administrador"))
                         {
                             <a class="nav-link" asp-controller="Home" asp-action="Index">
@@ -40,82 +43,72 @@
                                 Dashboard
                             </a>
                         }
-
-                        <div class="sb-sidenav-menu-heading">Gestion</div>
                         @if (User.IsInRole("Administrador"))
                         {
+                           
+                            <div class="sb-sidenav-menu-heading">Gestión</div>
+
                             <a class="nav-link" asp-controller="Usuario" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
-                                Usuario
-                            </a>
-                            <a class="nav-link" asp-controller="Especialidad" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Especialidad
-                            </a>
-                            <a class="nav-link" asp-controller="Doctor" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Aministrados
-                            </a>
-                            <a class="nav-link" asp-controller="Admnin" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Admin
-                            </a>
-                            <a class="nav-link" asp-controller="Equipamiento" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Equipamiento
-                            </a>
-                             <a class="nav-link" asp-controller="Reserva" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Reserva
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div> Usuarios
                             </a>
                             <a class="nav-link" asp-controller="Espacio" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Espacio
+                                <div class="sb-nav-link-icon"><i class="fas fa-door-open"></i></div> Espacios
                             </a>
-                        }
-                        @if (User.IsInRole("Usuario"))
-                        {
-                            <a class="nav-link" asp-controller="Cursos" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Cursos
+                            <a class="nav-link" asp-controller="Equipamiento" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tools"></i></div> Equipamiento
                             </a>
-                            <a class="nav-link" asp-controller="Aulas" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Aulas
+                            <a class="nav-link" asp-controller="Bitacora" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div> Bitácora
                             </a>
-                            <a class="nav-link" asp-controller="Equipos" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                               Equipos
+                            <a class="nav-link" asp-controller="Reporte" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file-export"></i></div> Reportes
                             </a>
                         }
 
+                        @* COORDINADOR *@
                         @if (User.IsInRole("Coordinador"))
                         {
-                            <a class="nav-link" asp-controller="Coordinacion" asp-action="Coordinacion">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Coordinacion
+                            <div class="sb-sidenav-menu-heading">Coordinación</div>
+
+                            <a class="nav-link" asp-controller="Calendario" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-calendar-alt"></i></div> Mi Calendario
                             </a>
-                            <a class="nav-link" asp-controller="Salones" asp-action="Salones">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Salones
+                            <a class="nav-link" asp-controller="Aulas" asp-action="Asignadas">
+                                <div class="sb-nav-link-icon"><i class="fas fa-school"></i></div> Aulas Asignadas
                             </a>
-                            <a class="nav-link" asp-controller="Coordinacion" asp-action="Aulas">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Aulas
+                            <a class="nav-link" asp-controller="Salones" asp-action="Asignados">
+                                <div class="sb-nav-link-icon"><i class="fas fa-door-open"></i></div> Salones Asignados
                             </a>
-                            <a class="nav-link" asp-controller="Equipos" asp-action="Equipos">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Equipos
+                            <a class="nav-link" asp-controller="Equipos" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-desktop"></i></div> Equipos
                             </a>
-                            <a class="nav-link" asp-controller="Reserva" asp-action="Reserva">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Reserva
+                            <a class="nav-link" asp-controller="Incidencia" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-exclamation-triangle"></i></div> Incidencias
                             </a>
                         }
 
+                        @* USUARIO FINAL *@
+                        @if (User.IsInRole("Usuario"))
+                        {
+                            <div class="sb-sidenav-menu-heading">Reservas</div>
+
+                            <a class="nav-link" asp-controller="Reserva" asp-action="Nueva">
+                                <div class="sb-nav-link-icon"><i class="fas fa-calendar-plus"></i></div> Reservar Espacio
+                            </a>
+                            <a class="nav-link" asp-controller="Reserva" asp-action="Historial">
+                                <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div> Historial de Reservas
+                            </a>
+                            <a class="nav-link" asp-controller="Reserva" asp-action="Estado">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tasks"></i></div> Estado de Reservas
+                            </a>
+                            <a class="nav-link" asp-controller="Notificacion" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-bell"></i></div> Notificaciones
+                            </a>
+                        }
 
                     </div>
                 </div>
+
 
                 @{
                     var rol = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "Sin Rol";
