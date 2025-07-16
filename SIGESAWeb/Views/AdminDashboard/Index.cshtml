@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Panel de Control";
+}
+@await Html.PartialAsync("_EncabezadoModulo", "Panel de Control")
+
+@section Estilos {
+    <link href="~/lib/datatables2/css/datatables.datatables.css" rel="stylesheet" />
+    <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/lib/select2/css/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+}
+
+<div class="row">
+    @await Component.InvokeAsync("CardMetric", new
+        {
+            titulo = "Reservas",
+            valor = "0",
+            icono = "fas fa-calendar-alt",
+            color = "primary"
+        })
+
+    @await Component.InvokeAsync("CardMetric", new
+        {
+            titulo = "Usuarios",
+            valor = "0",
+            icono = "fas fa-users",
+            color = "success"
+        })
+
+    @await Component.InvokeAsync("CardMetric", new
+        {
+            titulo = "Espacios",
+            valor = "0",
+            icono = "fas fa-door-open",
+            color = "info"
+        })
+
+    @await Component.InvokeAsync("CardMetric", new
+        {
+            titulo = "Incidencias",
+            valor = "0",
+            icono = "fas fa-exclamation-triangle",
+            color = "danger"
+        })
+</div>
+
+@section Scripts {
+
+    <script src="~/lib/datatables2/js/moment.min.js"></script>
+    <script src="~/lib/datatables2/js/datatables.js"></script>
+    <script src="~/lib/select2/js/select2.min.js"></script>
+    <script src ="~/Views/Admin/dashboard.js"></script>
+
+}

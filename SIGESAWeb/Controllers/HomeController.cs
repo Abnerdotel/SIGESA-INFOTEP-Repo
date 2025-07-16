@@ -17,7 +17,7 @@ namespace SigesaWeb.Controllers
             _logger = logger;
         }
 
-        // Redirige a Login si el usuario no está autenticado
+        // Redirige a Login si el usuario no esta autenticado
         [Authorize(Roles = "Administrador, Usuario, Coordinador")]
         public IActionResult Index()
         {
@@ -35,7 +35,7 @@ namespace SigesaWeb.Controllers
             return View();
         }
 
-        // Página de acceso denegado
+        // Pagina de acceso denegado
         [AllowAnonymous]
         public IActionResult Denegado()
         {

@@ -32,12 +32,14 @@
                                         <div class="form-floating">
                                             <input class="form-control" asp-for="DocumentoIdentidad" />
                                             <label for="DocumentoIdentidad">Documento de Identidad</label>
+                                            <span asp-validation-for="DocumentoIdentidad" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input class="form-control" asp-for="Nombre" />
                                             <label for="Nombre">Nombre</label>
+                                            <span asp-validation-for="Nombre" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -46,12 +48,14 @@
                                         <div class="form-floating">
                                             <input class="form-control" asp-for="Apellido" />
                                             <label for="Apellido">Apellido</label>
+                                            <span asp-validation-for="Apellido" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input class="form-control" asp-for="Correo" />
                                             <label for="Correo">Correo</label>
+                                            <span asp-validation-for="Correo" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -60,12 +64,14 @@
                                         <div class="form-floating">
                                             <input type="password" class="form-control" asp-for="Clave" />
                                             <label for="Clave">Contraseña</label>
+                                            <span asp-validation-for="Clave" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input type="password" class="form-control" asp-for="ConfirmarClave" />
                                             <label for="ConfirmarClave">Confirmar Contraseña</label>
+                                            <span asp-validation-for="Clave" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>

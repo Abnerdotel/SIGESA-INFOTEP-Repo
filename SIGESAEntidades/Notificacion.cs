@@ -16,6 +16,7 @@ namespace SigesaEntidades
         [ForeignKey("IdUsuario")]
         public virtual Usuario Usuario { get; set; } = null!;
 
+        [Required]
         public string Mensaje { get; set; } = null!;
 
         public int IdTipoNotificacion { get; set; }
@@ -23,6 +24,8 @@ namespace SigesaEntidades
         public virtual TipoNotificacion Tipo { get; set; } = null!;
 
         public DateTime FechaEnvio { get; set; }
+
+        public bool Leido { get; set; } = false;
     }
 
 

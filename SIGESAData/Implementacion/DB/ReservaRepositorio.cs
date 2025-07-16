@@ -3,7 +3,6 @@ using SigesaData.Context;
 using SigesaData.Context.SigesaData.Context;
 using SigesaData.Contrato;
 using SigesaEntidades;
-using System.Data;
 
 namespace SigesaData.Implementacion.DB
 {
@@ -77,6 +76,70 @@ namespace SigesaData.Implementacion.DB
                 .Include(r => r.Usuario)
                 .Include(r => r.Estado)
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Reserva>> ObtenerPorFechaAsync(DateTime fechaInicio, DateTime fechaFin)
+        {
+            return await _context.Reservas
+                .Where(r => r.FechaInicio >= fechaInicio && r.FechaFin <= fechaFin)
+                .Include(r => r.Espacio)
+                .Include(r => r.Usuario)
+                .Include(r => r.Estado)
+                .ToListAsync();
+        }
+
+        public async Task<bool> CambiarEstadoAsync(int idReserva, int idNuevoEstado)
+        {
+            var reserva = await _context.Reservas.FindAsync(idReserva);
+            if (reserva == null) return false;
+
+            reserva.IdEstado = idNuevoEstado;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<IEnumerable<Reserva>> ObtenerHistorialUsuarioAsync(int idUsuario)
+        {
+            return await _context.Reservas
+                .Where(r => r.IdUsuario == idUsuario)
+                .OrderByDescending(r => r.FechaInicio)
+                .Include(r => r.Espacio)
+                .Include(r => r.Estado)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Reserva>> ObtenerPendientesPorUsuarioAsync(int idUsuario)
+        {
+            return await _context.Reservas
+                .Where(r => r.IdUsuario == idUsuario && r.Estado.Nombre == "Pendiente")
+                .Include(r => r.Espacio)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Reserva>> ObtenerConfirmadasAsync()
+        {
+            return await _context.Reservas
+                .Where(r => r.Estado.Nombre == "Confirmada")
+                .Include(r => r.Usuario)
+                .Include(r => r.Espacio)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Reserva>> ObtenerCanceladasAsync()
+        {
+            return await _context.Reservas
+                .Where(r => r.Estado.Nombre == "Cancelada")
+                .Include(r => r.Usuario)
+                .Include(r => r.Espacio)
+                .ToListAsync();
+        }
+
+        public async Task<bool> VerificarDisponibilidadAsync(int idEspacio, DateTime fechaInicio, DateTime fechaFin)
+        {
+            return !await _context.Reservas.AnyAsync(r =>
+                r.IdEspacio == idEspacio &&
+                r.FechaInicio < fechaFin &&
+                r.FechaFin > fechaInicio);
         }
     }
 }

@@ -38,30 +38,76 @@
 
                         @if (User.IsInRole("Administrador"))
                         {
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">
+                            <a class="nav-link" asp-controller="AdminDashboard" asp-action="Index">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
-                        
-  
-                            <div class="sb-sidenav-menu-heading">Gestión</div>
 
-                            <a class="nav-link" asp-controller="Usuario" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div> Usuarios
+                            <div class="sb-sidenav-menu-heading">Gestión de Módulos</div>
+
+                            <!-- Gestión de Usuarios -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsuarios" aria-expanded="false" aria-controls="collapseUsuarios">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                Usuarios
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <a class="nav-link" asp-controller="Espacio" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-door-open"></i></div> Espacios
+                            <div class="collapse" id="collapseUsuarios" aria-labelledby="headingOne">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-controller="Usuario" asp-action="Index">Administrar Usuarios</a>
+                                </nav>
+                            </div>
+                    
+                            <!-- Equipamiento -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseEquipos" aria-expanded="false" aria-controls="collapseEquipos">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tools"></i></div>
+                                Equipamiento
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <a class="nav-link" asp-controller="Equipamiento" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tools"></i></div> Equipamiento
+                            <div class="collapse" id="collapseEquipos">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-controller="Equipamiento" asp-action="Index">Administrar Equipamiento</a>
+                                </nav>
+                            </div>
+
+                            <!-- Gestión de Espacios -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseEspacios" aria-expanded="false" aria-controls="collapseEspacios">
+                                <div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>
+                                Gestión de Espacios
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <a class="nav-link" asp-controller="Bitacora" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div> Bitácora
+                            <div class="collapse" id="collapseEspacios">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-controller="Espacio" asp-action="Index">Administrar Espacios</a>
+                                    <a class="nav-link" asp-controller="TipoEspacio" asp-action="Index">Administrar Tipos de Espacio</a>
+                                </nav>
+                            </div>
+
+
+                            <!-- Bitácora -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseBitacora" aria-expanded="false" aria-controls="collapseBitacora">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
+                                Bitácora
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <a class="nav-link" asp-controller="Reporte" asp-action="Index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-file-export"></i></div> Reportes
+                            <div class="collapse" id="collapseBitacora">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-controller="Bitacora" asp-action="Index">Ver Bitácora</a>
+                                </nav>
+                            </div>
+
+                            <!-- Reportes -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReportes" aria-expanded="false" aria-controls="collapseReportes">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file-export"></i></div>
+                                Reportes
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
+                            <div class="collapse" id="collapseReportes">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-controller="Reporte" asp-action="Index">Exportar Reportes</a>
+                                </nav>
+                            </div>
                         }
+
 
                         @* COORDINADOR *@
                         @if (User.IsInRole("Coordinador"))

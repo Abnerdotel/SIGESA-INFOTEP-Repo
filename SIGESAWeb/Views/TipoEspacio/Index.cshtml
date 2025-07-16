@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Gestión de Tipos de Espacio";
+}
+
+@section Estilos {
+    <link href="~/lib/datatables2/css/datatables.datatables.css" rel="stylesheet" />
+    <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/lib/select2/css/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+}
+
+@await Html.PartialAsync("_EncabezadoModulo", "Tipos de Espacio")
+
+<div class="mb-3">
+    <button class="btn btn-success" id="btnNuevoTipo"><i class="fas fa-plus me-2"></i>Nuevo Tipo</button>
+</div>
+
+<div class="table-responsive">
+    <table id="tablaTiposEspacio" class="table table-bordered w-100">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Fecha de Creación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalTipoEspacio" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Tipo de Espacio</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="idTipoEspacio">
+                <div class="mb-3">
+                    <label for="nombreTipoEspacio" class="form-label">Nombre</label>
+                    <input type="text" id="nombreTipoEspacio" class="form-control" autocomplete="off" placeholder="Ej: Laboratorio, Sala de Conferencias...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" id="btnGuardarTipo">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/datatables2/js/moment.min.js"></script>
+    <script src="~/lib/datatables2/js/datatables.js"></script>
+    <script src="~/lib/select2/js/select2.min.js"></script>
+    <script src="~/Views/Admin/tipoespacio.js"></script>
+}

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SigesaData.Contrato
+﻿namespace SigesaData.Contrato
 {
-    internal interface IDashboardRespositorio
+    public interface IDashboardRespositorio
     {
+        Task<int> ObtenerTotalReservasAsync();
+        Task<int> ObtenerEspaciosActivosAsync();
+        Task<int> ObtenerReservasCanceladasAsync();
+        Task<int> ObtenerIncidenciasReportadasAsync();
     }
 }

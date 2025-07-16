@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Bitácora del Sistema";
+}
+@await Html.PartialAsync("_EncabezadoModulo", "Bitácora de Actividades")
+
+@section Estilos {
+    <link href="~/lib/datatables2/css/datatables.datatables.css" rel="stylesheet" />
+    <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/lib/select2/css/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+}
+
+
+<div class="mb-3">
+    <input type="text" id="filtroModulo" class="form-control" placeholder="Filtrar por módulo...">
+</div>
+
+<div id="contenedorTablaBitacora">
+   
+</div>
+
+@section Scripts {
+    <script src="~/lib/datatables2/js/moment.min.js"></script>
+    <script src="~/lib/datatables2/js/datatables.js"></script>
+    <script src="~/lib/select2/js/select2.min.js"></script>
+    <script src="~/Views/Admin/bitacora.js"></script>
+}
