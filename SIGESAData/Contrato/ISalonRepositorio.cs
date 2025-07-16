@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SigesaEntidades;
 
 namespace SigesaData.Contrato
 {
-    internal interface ISalonRepositorio
+    public interface ISalonRepositorio
     {
+        Task<IEnumerable<Espacio>> ObtenerSalonesAsignadosAsync(int idCoordinador);
     }
 }

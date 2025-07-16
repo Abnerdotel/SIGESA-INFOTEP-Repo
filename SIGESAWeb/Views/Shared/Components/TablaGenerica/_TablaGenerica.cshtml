@@ -1,0 +1,25 @@
+﻿@model SigesaWeb.Models.DTOs.TablaGenericaDTO
+
+<div class="table-responsive">
+    <table id="@Model.IdTabla" class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                @foreach (var col in Model.Columnas)
+                {
+                    <th>@col</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var fila in Model.Filas)
+            {
+                <tr>
+                    @foreach (var celda in fila)
+                    {
+                        <td>@celda</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

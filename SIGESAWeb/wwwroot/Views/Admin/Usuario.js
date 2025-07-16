@@ -90,10 +90,7 @@ $(document).on("click", "#btnGuardar", function () {
         return;
     }
 
-    if (!idRol || isNaN(idRol) || idRol <= 0) {
-        Swal.fire("Error", "Debe seleccionar un rol válido.", "warning");
-        return;
-    }
+   
 
     const esNuevo = idEditar === 0;
     const objeto = esNuevo

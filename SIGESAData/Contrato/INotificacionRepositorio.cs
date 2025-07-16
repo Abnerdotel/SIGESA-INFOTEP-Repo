@@ -1,5 +1,3 @@
-
-
 using SigesaEntidades;
 
 namespace SigesaData.Contrato
@@ -8,6 +6,7 @@ namespace SigesaData.Contrato
     {
         Task<int> RegistrarAsync(Notificacion notificacion);
         Task<IEnumerable<Notificacion>> ObtenerPorUsuarioAsync(int idUsuario);
+        Task<bool> MarcarComoLeidaAsync(int idNotificacion);
+        Task<bool> MarcarTodasComoLeidasAsync(int idUsuario);
     }
-
 }

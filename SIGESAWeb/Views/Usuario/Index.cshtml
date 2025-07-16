@@ -1,4 +1,6 @@
-﻿@{
+﻿@model SigesaWeb.Models.DTOS.VMUsuario
+
+@{
     ViewData["Title"] = "Usuarios";
 }
 
@@ -44,6 +46,7 @@
                     <div class="col-sm-6">
                         <label class="col-form-label">Nro Documento:</label>
                         <input type="text" class="form-control" id="txtNroDocumento" autocomplete="off">
+                        <span asp-validation-for="DocumentoIdentidad" class="text-danger"></span>
                     </div>
                     <div class="col-sm-6">
                         <label class="col-form-label">Nombres:</label>
@@ -58,6 +61,7 @@
                     <div class="col-sm-6">
                         <label class="col-form-label">Correo:</label>
                         <input type="email" class="form-control" id="txtCorreo" autocomplete="off">
+                        <span asp-validation-for="Correo" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -72,6 +76,7 @@
                     <div class="col-sm-6">
                         <label class="col-form-label">Contraseña:</label>
                         <input type="password" class="form-control" id="txtClave" autocomplete="off">
+                        <span asp-validation-for="Clave" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -87,5 +92,5 @@
     <script src="~/lib/datatables2/js/moment.min.js"></script>
     <script src="~/lib/datatables2/js/datatables.js"></script>
     <script src="~/lib/select2/js/select2.min.js"></script>
-    <script src="~/views/usuario/usuario.js"></script>
+    <script src="~/views/admin/usuario.js"></script>
 }

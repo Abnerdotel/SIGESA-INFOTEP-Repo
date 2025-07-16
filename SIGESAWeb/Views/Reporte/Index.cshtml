@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Reportes del Sistema";
+}
+@await Html.PartialAsync("_EncabezadoModulo", "Generar Reportes")
+
+@section Estilos {
+    <link href="~/lib/datatables2/css/datatables.datatables.css" rel="stylesheet" />
+    <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/lib/select2/css/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+}
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <button class="btn btn-outline-primary w-100" id="btnReporteUsuarios">
+            <i class="fas fa-file-download"></i> Reporte de Usuarios
+        </button>
+    </div>
+    <div class="col-md-6 mb-3">
+        <button class="btn btn-outline-success w-100" id="btnReporteReservas">
+            <i class="fas fa-file-download"></i> Reporte de Reservas
+        </button>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/datatables2/js/moment.min.js"></script>
+    <script src="~/lib/datatables2/js/datatables.js"></script>
+    <script src="~/lib/select2/js/select2.min.js"></script>
+    <script src="~/Views/Admin/reportes.js"></script>
+
+}

@@ -1,0 +1,8 @@
+﻿@model SigesaWeb.Models.DTOs.BotonAccionDTO
+
+<button type="button"
+        class="btn @Model.Clase btn-sm"
+        data-bs-toggle="modal"
+        data-bs-target="#@Model.TargetModalId">
+    <i class="@Model.Icono"></i> @Model.Texto
+</button>

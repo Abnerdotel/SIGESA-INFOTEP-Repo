@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.EntityFrameworkCore;
 using SigesaData.Context.SigesaData.Context;
 using SigesaData.Contrato;
@@ -6,6 +7,11 @@ using SigesaData.Implementacion;
 using SigesaData.Implementacion.DB;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers(options =>
+{
+    options.ModelMetadataDetailsProviders.Add(new SystemTextJsonValidationMetadataProvider());
+});
 
 // === Servicios MVC ===
 builder.Services.AddControllersWithViews();
@@ -19,6 +25,7 @@ builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<IBitacoraRepositorio, BitacoraRepositorio>();
 builder.Services.AddScoped<IEquipamientoRepositorio, EquipamientoRepositorio>();
 builder.Services.AddScoped<IEspacioRepositorio, EspacioRepositorio>();
+builder.Services.AddScoped<ITipoEspacioRepositorio, TipoEspacioRepositorio>();
 builder.Services.AddScoped<INotificacionRepositorio, NotificacionRepositorio>();
 builder.Services.AddScoped<IReservaRepositorio, ReservaRepositorio>();
 builder.Services.AddScoped<IRolRepositorio, RolRepositorio>();
@@ -36,7 +43,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 var app = builder.Build();
 
-// === Migración automática al iniciar ===
+// === Migración automatica al iniciar ===
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<SigesaDbContext>();

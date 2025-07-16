@@ -24,6 +24,7 @@ namespace SigesaWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> Lista()
         {
+           
             var usuarios = await _repositorio.ObtenerListaAsync();
 
             var resultado = usuarios.Select(u => new

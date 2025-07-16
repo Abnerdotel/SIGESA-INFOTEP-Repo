@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SigesaData.Contrato
+﻿namespace SigesaData.Contrato
 {
-    interface IReporteRepositorio
+
+    public interface IReporteRepositorio
     {
+        Task<byte[]> GenerarReporteReservasAsync(DateTime inicio, DateTime fin);
+        Task<byte[]> GenerarReporteUsuariosAsync();
+        Task<byte[]> GenerarReporteEspaciosAsync();
+
+
     }
 }
